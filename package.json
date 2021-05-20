@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "postinstall": "cd ./packages/app && expo-yarn-workspaces postinstall",
-    "app:start": "lerna run start --scope @video-editor/app --stream --no-prefix",
+    "app:start": "lerna run start --scope @video-editor/native --stream --no-prefix",
     "web:start": "lerna run start --scope @video-editor/web --stream --no-prefix"
   },
   "devDependencies": {

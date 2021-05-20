@@ -1,5 +1,5 @@
 {
-  "name": "@video-editor/app",
+  "name": "@video-editor/native",
   "version": "1.0.0",
   "private": true,
   "main": "__generated__/AppEntry.js",
