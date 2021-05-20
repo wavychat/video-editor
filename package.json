@@ -1,6 +1,10 @@
 {
   "name": "video-editor",
   "private": true,
+  "scripts": {
+    "app:start": "lerna run start --scope @video-editor/app --stream --no-prefix",
+    "web:start": "lerna run start --scope @video-editor/web --stream --no-prefix"
+  },
   "devDependencies": {
     "lerna": "^4.0.0"
   },
