@@ -2,6 +2,7 @@
   "name": "video-editor",
   "private": true,
   "scripts": {
+    "postinstall": "cd ./packages/app && expo-yarn-workspaces postinstall",
     "app:start": "lerna run start --scope @video-editor/app --stream --no-prefix",
     "web:start": "lerna run start --scope @video-editor/web --stream --no-prefix"
   },
@@ -11,6 +12,12 @@
   "workspaces": {
     "packages": [
       "packages/*"
+    ],
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**",
+      "**/expo",
+      "**/expo/**"
     ]
   }
 }
