@@ -3,7 +3,7 @@ import { RecoilRoot } from "recoil";
 import RecoilDebugger from "recoilize";
 import { Container } from "./components/Container";
 
-export default function App() {
+export default function VideoEditor() {
 	return (
 		<RecoilRoot>
 			{/* <RecoilDebugger /> */}

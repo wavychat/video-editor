@@ -30,11 +30,8 @@ export const Container: React.FC<Props> = (props) => {
 
 	return (
 		<div
-			className="canvas_app"
-			style={{
-				backgroundColor: "black",
-				height: "100%",
-			}}
+			style={{ backgroundColor: "black" }}
+			id="video_editor_canvas_container_1"
 		>
 			{!started ? (
 				<button onClick={start}>Start</button>
