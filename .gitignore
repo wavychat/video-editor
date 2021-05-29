@@ -3,6 +3,9 @@ node_modules/
 npm-debug.*
 yarn-debug.*
 yarn-error.log*
+build
+web-build
+dist
 
 # App (expo)
 .expo/
@@ -12,7 +15,6 @@ yarn-error.log*
 *.key
 *.mobileprovision
 *.orig.*
-web-build/
 
 # macOS
 .DS_Store
@@ -25,9 +27,6 @@ web-build/
 
 # testing
 /coverage
-
-# production
-/build
 
 # misc
 .DS_Store
