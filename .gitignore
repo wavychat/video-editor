@@ -1,6 +1,11 @@
+# Global
 node_modules/
-.expo/
 npm-debug.*
+yarn-debug.*
+yarn-error.log*
+
+# App (expo)
+.expo/
 *.jks
 *.p8
 *.p12
@@ -11,3 +16,23 @@ web-build/
 
 # macOS
 .DS_Store
+
+# Web (react.js)
+
+# dependencies
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
