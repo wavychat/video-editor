@@ -7,7 +7,9 @@ export default function App() {
 	return (
 		<View style={{ flex: 1, marginTop: 20 }}>
 			<WebView
-				source={{ uri: "https://google.com" }}
+				source={{
+					html: require("@video-editor/common/build/index.html"),
+				}}
 				bounces={false}
 				scrollEnabled={false}
 				allowsInlineMediaPlayback
