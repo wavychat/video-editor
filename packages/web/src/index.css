@@ -1,6 +1,11 @@
 html, body, #root, #video_editor_canvas_container_1 {
   width: 100%;
   height: 100%;
+  background-color: black;
+}
+
+.text-white {
+  color: white;
 }
 
 body {
