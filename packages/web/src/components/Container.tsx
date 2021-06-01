@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 // Helpers
-import { AppScreens, pageState, variablesState } from "../helpers/atoms";
+import { AppScreens, pageState } from "../helpers/atoms";
 
 // Pages
 import { DrawPage } from "../pages/Draw";
@@ -29,7 +29,6 @@ const Content: React.FC = () => {
 	const videoRef = useRef<HTMLVideoElement>(null);
 
 	const page = useRecoilValue(pageState);
-	const setVariables = useSetRecoilState(variablesState);
 
 	const load = () => {
 		setLoading(false);
@@ -51,7 +50,7 @@ const Content: React.FC = () => {
 		<>
 			<div>
 				<BackgroundVideo ref={videoRef} />
-				<EditCanvas ref={canvasRef} />
+				<EditCanvas ref={canvasRef} videoRef={videoRef} />
 			</div>
 			<div style={{ position: "relative", zIndex: 3 }}>
 				{page === AppScreens.INITIAL ? (

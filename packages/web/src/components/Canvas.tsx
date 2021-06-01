@@ -20,6 +20,7 @@ import { IScripting } from "../helpers/types/scripting";
 
 interface Props {
 	onTextDoubleClick?: (obj: any) => any;
+	videoRef: React.RefObject<HTMLVideoElement>;
 }
 
 type TFabricRef = fabric.Canvas | undefined;
@@ -36,7 +37,7 @@ export interface IEditCanvasRef {
 }
 
 const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
-	({ onTextDoubleClick }, ref) => {
+	({ onTextDoubleClick, videoRef }, ref) => {
 		const lineOptions = useRecoilValue(lineOptionsState);
 		const [script, setScript] = useRecoilState(scriptState);
 		const [variables, setVariables] = useRecoilState(variablesState);
@@ -168,7 +169,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 						show: [...(t?.show ?? []), id],
 					};
 
-					script_clone[frame + 20] = {
+					script_clone[frame + 15] = {
 						...t,
 						hide: [...(t?.hide ?? []), id],
 					};
@@ -190,26 +191,17 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		}, []);
 
 		useEffect(() => {
-			let frame: number = 1;
-			let last_loop: number = 0;
-
 			/** Request Animation Frame on specific FPS */
 			const requestAnimFrame = () =>
 				setTimeout(() => {
 					requestAnimationFrame(animate);
 				}, 1000 / variables.FPS);
 
-			/** Increment frame and request animation frame */
-			const nextFrame = () => {
-				frame++;
-				return requestAnimFrame();
-			};
-
 			const animate = () => {
 				let notPlayingVideo: boolean = false;
-				let hasPinnedFrame: boolean = false;
-				let timesLooped: number = 0;
 				let _script: IScripting = {};
+
+				let pinnedFrame: number | undefined;
 
 				// TODO: Remove this and change ref when recoil state changes
 				setScript((script) => {
@@ -220,41 +212,37 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 				// Getting variables
 				setVariables((vars) => {
 					notPlayingVideo = !vars.playVideo;
-					hasPinnedFrame = !!vars.pinnedFrame;
-					timesLooped = vars.looped;
+					pinnedFrame = vars.pinnedFrame;
 					return vars;
 				});
 
-				// Reseting frame on reloop
-				if (last_loop < timesLooped) {
-					last_loop++;
-					frame = 1;
-				}
+				if (notPlayingVideo || pinnedFrame)
+					return requestAnimationFrame(animate);
 
-				if (notPlayingVideo || hasPinnedFrame)
-					return requestAnimFrame();
+				const frame =
+					Math.round(
+						videoRef.current?.currentTime! * variables.FPS
+					) ?? 1;
 
 				const frame_script = _script[frame];
 
-				console.log(frame);
-
-				if (!frame_script) return nextFrame();
+				if (!frame_script) return requestAnimFrame();
 
 				for (let to_hide of frame_script.hide || []) {
 					const obj = getObject(to_hide);
 					if (!obj) continue;
-					obj.opacity = 0;
+					obj.set("opacity", 0);
+					fabricCanvasRef.current?.renderAll();
 				}
 
 				for (const to_show of frame_script.show || []) {
 					const obj = getObject(to_show);
-					console.log(to_show, obj);
 					if (!obj) continue;
-					obj.opacity = 1;
+					obj.set("opacity", 1);
+					fabricCanvasRef.current?.renderAll();
 				}
 
-				fabricCanvasRef.current?.renderAll();
-				return nextFrame();
+				return requestAnimFrame();
 			};
 
 			requestAnimationFrame(animate);

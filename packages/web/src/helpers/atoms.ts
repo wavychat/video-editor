@@ -29,9 +29,6 @@ interface IVariables {
 	/** The final video duration */
 	videoDuration: number;
 
-	/** Number of times the video was looped since the begining of the editing */
-	looped: number;
-
 	/** If the user is in draw state (drawing or erasing) */
 	isDrawing: boolean;
 
@@ -72,7 +69,6 @@ export const pageState = atom<AppScreens>({
 export const variablesState = atom<IVariables>({
 	key: "variablesState",
 	default: {
-		looped: 0,
 		FPS: 30,
 		videoDuration: 11.863,
 		playVideo: false,

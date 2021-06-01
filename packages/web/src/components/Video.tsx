@@ -23,26 +23,42 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 			const video = videoRef.current;
 			if (!video) return;
 
-			const onEnd = () => {
-				videoRef.current!.currentTime = 0;
-				videoRef.current!.play();
-				setVariables((vars) => ({ ...vars, looped: vars.looped + 1 }));
-			};
-
-			video.addEventListener("ended", onEnd);
-
-			video.addEventListener("canplay", () => {
-				console.log("canplay");
+			/** On video loaded and ready to be played */
+			const onReady = () => {
 				setVariables((vars) => ({
 					...vars,
 					playVideo: true,
 				}));
-			});
+			};
+
+			/** Replay video when ended (loop) */
+			const onEnd = () => {
+				videoRef.current!.currentTime = 0;
+				videoRef.current!.play();
+			};
+
+			let focused: boolean = true;
+			/** Pause video when not in the tab */
+			const onVisibilityChange = () => {
+				focused = !focused;
+				if (!focused) video.pause();
+				else if (variables.playVideo) video.play();
+			};
+
+			document.addEventListener("visibilitychange", onVisibilityChange);
+			video.addEventListener("canplaythrough", onReady);
+			video.addEventListener("ended", onEnd);
 
 			return () => {
+				document.removeEventListener(
+					"visibilitychange",
+					onVisibilityChange
+				);
+
+				video.removeEventListener("canplaythrough", onReady);
 				video.removeEventListener("ended", onEnd);
 			};
-		}, []);
+		}, [variables.playVideo]);
 
 		return (
 			<div>
