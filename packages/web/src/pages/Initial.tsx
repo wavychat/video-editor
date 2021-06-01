@@ -35,15 +35,16 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			>
 				To JSON
 			</button>
-			{variables.playVideo && !variables.currentFrame ? (
+			{variables.playVideo && !variables.pinnedFrame ? (
 				<button
 					onClick={() =>
 						setVariables((vars) => ({
 							...vars,
 							playVideo: false,
-							currentFrame:
-								Math.round(videoRef.current?.currentTime!) *
-									vars.FPS ?? 1,
+							pinnedFrame:
+								Math.round(
+									videoRef.current?.currentTime! * vars.FPS
+								) ?? 1,
 						}))
 					}
 				>
@@ -55,7 +56,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 						setVariables((vars) => ({
 							...vars,
 							playVideo: true,
-							currentFrame: undefined,
+							pinnedFrame: undefined,
 						}))
 					}
 				>
