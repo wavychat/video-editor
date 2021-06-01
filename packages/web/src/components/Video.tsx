@@ -20,7 +20,8 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 		}, [variables.playVideo]);
 
 		useEffect(() => {
-			if (!videoRef.current) return;
+			const video = videoRef.current;
+			if (!video) return;
 
 			const onEnd = () => {
 				videoRef.current!.currentTime = 0;
@@ -28,10 +29,18 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 				setVariables((vars) => ({ ...vars, looped: vars.looped + 1 }));
 			};
 
-			videoRef.current.addEventListener("ended", onEnd);
+			video.addEventListener("ended", onEnd);
+
+			video.addEventListener("canplay", () => {
+				console.log("canplay");
+				setVariables((vars) => ({
+					...vars,
+					playVideo: true,
+				}));
+			});
 
 			return () => {
-				videoRef.current?.removeEventListener("ended", onEnd);
+				video.removeEventListener("ended", onEnd);
 			};
 		}, []);
 

@@ -36,8 +36,7 @@ const Content: React.FC = () => {
 	};
 
 	const start = () => {
-		setStart(true);
-		return setVariables((vars) => ({ ...vars, playVideo: true }));
+		return setStart(true);
 	};
 
 	useEffect(() => {
