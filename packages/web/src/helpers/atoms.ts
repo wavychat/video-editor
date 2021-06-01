@@ -23,12 +23,28 @@ interface ITextOptions {
 }
 
 interface IVariables {
+	/** The FPS of the video */
 	readonly FPS: number;
+
+	/** The final video duration */
 	videoDuration: number;
+
+	/** Number of times the video was looped since the begining of the editing */
+	looped: number;
+
+	/** If the user is in draw state (drawing or erasing) */
 	isDrawing: boolean;
+
+	/** If the user is erasing */
 	erasing: boolean;
+
+	/** If the video is play (when frame is pinned) */
 	playVideo: boolean;
-	currentFrame?: number;
+
+	/** The frame that was pinned */
+	pinnedFrame?: number;
+
+	/** The ID of the selected text */
 	selectedTextId?: string;
 }
 
@@ -56,10 +72,11 @@ export const pageState = atom<AppScreens>({
 export const variablesState = atom<IVariables>({
 	key: "variablesState",
 	default: {
+		looped: 0,
 		FPS: 30,
 		videoDuration: 11.863,
 		playVideo: false,
-		currentFrame: undefined,
+		pinnedFrame: undefined,
 		isDrawing: false,
 		erasing: false,
 	},
