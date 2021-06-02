@@ -15,6 +15,7 @@ import {
 	variablesState,
 	lineOptionsState,
 	scriptState,
+	IVariables,
 } from "../helpers/atoms";
 import { IScripting } from "../helpers/types/scripting";
 
@@ -42,7 +43,8 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		const [script, setScript] = useRecoilState(scriptState);
 		const [variables, setVariables] = useRecoilState(variablesState);
 
-		const currentFrameRef = useRef<number>();
+		const variablesRef = useRef<IVariables>();
+		const scriptRef = useRef<IScripting>({});
 
 		const canvasRef = useRef<HTMLCanvasElement>(null);
 		const fabricCanvasRef = useRef<fabric.Canvas>();
@@ -95,8 +97,9 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		}));
 
 		useEffect(() => {
-			currentFrameRef.current = variables.pinnedFrame;
-		}, [variables.pinnedFrame]);
+			variablesRef.current = variables;
+			scriptRef.current = script;
+		}, [variables, script]);
 
 		useEffect(() => {
 			if (fabricCanvasRef.current)
@@ -155,27 +158,28 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 			resizeCanvas();
 			window.addEventListener("resize", resizeCanvas, false);
 
-			// TODO: handle events (onTextDoubleClick, onPath)
+			// TODO: handle events (onTextDoubleClick)
 			canvas.on("object:added", (opt) => {
 				const id = uuidv4();
 
 				setScript((script) => {
-					const frame = currentFrameRef.current ?? 1;
+					const { pinnedFrame = 1 } = variablesRef.current!;
 					let script_clone = { ...script };
-					let t = script_clone[frame];
+					let t = script_clone[pinnedFrame];
 
-					script_clone[frame] = {
+					script_clone[pinnedFrame] = {
 						...t,
 						show: [...(t?.show ?? []), id],
 					};
 
-					script_clone[frame + 15] = {
+					script_clone[pinnedFrame + 15] = {
 						...t,
 						hide: [...(t?.hide ?? []), id],
 					};
 
 					return script_clone;
 				});
+
 				if (opt.path) {
 					opt.path.id = id;
 					opt.path.hasControls = false;
@@ -187,6 +191,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 			return () => {
 				window.removeEventListener("resize", resizeCanvas, false);
+				canvas.removeListeners();
 			};
 		}, []);
 
@@ -198,25 +203,10 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 				}, 1000 / variables.FPS);
 
 			const animate = () => {
-				let notPlayingVideo: boolean = false;
-				let _script: IScripting = {};
+				const script = scriptRef.current;
+				const { pinnedFrame, playVideo } = variablesRef.current!;
 
-				let pinnedFrame: number | undefined;
-
-				// TODO: Remove this and change ref when recoil state changes
-				setScript((script) => {
-					_script = script;
-					return script;
-				});
-
-				// Getting variables
-				setVariables((vars) => {
-					notPlayingVideo = !vars.playVideo;
-					pinnedFrame = vars.pinnedFrame;
-					return vars;
-				});
-
-				if (notPlayingVideo || pinnedFrame)
+				if (!playVideo || pinnedFrame)
 					return requestAnimationFrame(animate);
 
 				const frame =
@@ -224,7 +214,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 						videoRef.current?.currentTime! * variables.FPS
 					) ?? 1;
 
-				const frame_script = _script[frame];
+				const frame_script = script[frame];
 
 				if (!frame_script) return requestAnimFrame();
 

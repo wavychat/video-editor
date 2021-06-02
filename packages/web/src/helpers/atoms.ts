@@ -1,19 +1,19 @@
 import { atom } from "recoil";
 import { IScripting } from "./types/scripting";
 
-enum LineTypes {
+export enum LineTypes {
 	NORMAL,
 	// TODO: implement neon
 	NEON,
 }
 
-interface ILineOptions {
+export interface ILineOptions {
 	type: LineTypes;
 	size: number;
 	color: string;
 }
 
-interface ITextOptions {
+export interface ITextOptions {
 	background: string;
 	color: string;
 	fontFamily: string;
@@ -22,7 +22,7 @@ interface ITextOptions {
 	textAlign: "center" | "left" | "right";
 }
 
-interface IVariables {
+export interface IVariables {
 	/** The FPS of the video */
 	readonly FPS: number;
 
