@@ -148,8 +148,6 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 			const canvas = (fabricCanvasRef.current = new fabric.Canvas(
 				canvasRef.current
 			));
-			//@ts-expect-error
-			canvas.objectCaching = false;
 
 			// init pressure brush
 			const brush = new PSBrush(canvas);
@@ -168,15 +166,17 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 					const { pinnedFrame = 1 } = variablesRef.current!;
 					let script_clone = { ...script };
 					let t = script_clone[pinnedFrame];
+					const next_frame = 5;
+					let t2 = script_clone[pinnedFrame + next_frame];
 
 					script_clone[pinnedFrame] = {
 						...t,
 						show: [...(t?.show ?? []), id],
 					};
 
-					script_clone[pinnedFrame + 15] = {
-						...t,
-						hide: [...(t?.hide ?? []), id],
+					script_clone[pinnedFrame + next_frame] = {
+						...t2,
+						hide: [...(t2?.hide ?? []), id],
 					};
 
 					return script_clone;
@@ -185,9 +185,11 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 				if (opt.path) {
 					opt.path.id = id;
 					opt.path.hasControls = false;
+					opt.path.dirty = true;
 				} else if (opt.target) {
 					opt.target.id = id;
 					opt.target.hasControls = false;
+					opt.target.dirty = true;
 				}
 			});
 
@@ -199,12 +201,9 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 		useEffect(() => {
 			/** Request Animation Frame on specific FPS */
-			const requestAnimFrame = () =>
-				setTimeout(() => {
-					requestAnimationFrame(animate);
-				}, 1000 / variables.FPS);
+			const requestAnimFrame = () => requestAnimationFrame(animate);
 
-			const animate = async () => {
+			const animate = () => {
 				const script = scriptRef.current;
 				const { pinnedFrame, playVideo } = variablesRef.current!;
 
@@ -220,81 +219,18 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 				if (!frame_script) return requestAnimFrame();
 
-				console.log(frame_script);
+				for (let to_hide of frame_script.hide || []) {
+					const obj = getObject(to_hide);
+					if (!obj) continue;
+					obj.set("opacity", 0);
+				}
 
-				let obj_id_index: number = 0;
-				let finished_showing: boolean = false;
-
-				const onRender = (resolve: any, reject: any) => {
-					console.log("onrender 1");
-					return (e: fabric.IEvent) => {
-						console.log("onrender 2");
-
-						if (
-							!finished_showing &&
-							obj_id_index ===
-								(frame_script.show || [0]).length - 1
-						) {
-							console.log("finished show");
-							obj_id_index = 0;
-							finished_showing = true;
-						}
-
-						if (
-							finished_showing &&
-							obj_id_index ===
-								(frame_script.hide || [0]).length - 1
-						)
-							return resolve(e);
-
-						console.log(
-							"not finished_showing and obj id index is not equal to hide script length"
-						);
-
-						if (!finished_showing && frame_script.show) {
-							console.log(frame_script.show);
-							const to_show = frame_script.show[obj_id_index];
-							const obj = getObject(to_show);
-
-							console.log(
-								"showing",
-								frame_script.show[obj_id_index],
-								obj
-							);
-
-							if (obj) obj.set("opacity", 0);
-						} else if (frame_script.hide) {
-							const to_hide = frame_script.hide[obj_id_index];
-							const obj = getObject(to_hide);
-
-							console.log(
-								"hidding",
-								frame_script.hide[obj_id_index],
-								obj
-							);
-
-							if (obj) obj.set("opacity", 0);
-						}
-
-						obj_id_index++;
-						return fabricCanvasRef.current?.renderAll();
-					};
-				};
-
-				console.log("before promise");
-
-				await new Promise((resolve, reject) => {
-					console.log("on promise");
-					fabricCanvasRef.current?.on(
-						"after:render",
-						onRender(resolve, reject)
-					);
-					fabricCanvasRef.current?.renderAll();
-				});
-
-				console.log("finished rendering", { finished_showing });
-
-				fabricCanvasRef.current?.off("after:render");
+				for (const to_show of frame_script.show || []) {
+					const obj = getObject(to_show);
+					if (!obj) continue;
+					obj.set("opacity", 1);
+				}
+				fabricCanvasRef.current?.renderAll();
 
 				return requestAnimFrame();
 			};

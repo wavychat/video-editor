@@ -12,11 +12,32 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 		useImperativeHandle(ref, () => videoRef.current!);
 
 		useEffect(() => {
-			if (variables.playVideo) videoRef.current?.play();
+			const video = videoRef.current;
+			if (!video) return;
+
+			if (variables.playVideo) video.play();
 			else {
 				console.log("stopped at frame", variables.pinnedFrame);
-				videoRef.current?.pause();
+				video.pause();
 			}
+
+			/** Is the tab focused */
+			let focused: boolean = true;
+			/** Pause video when not in the tab */
+			const onVisibilityChange = () => {
+				focused = !focused;
+				if (!focused) video.pause();
+				else if (variables.playVideo) video.play();
+			};
+
+			document.addEventListener("visibilitychange", onVisibilityChange);
+
+			return () => {
+				document.removeEventListener(
+					"visibilitychange",
+					onVisibilityChange
+				);
+			};
 		}, [variables.playVideo]);
 
 		useEffect(() => {
@@ -31,34 +52,24 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 				}));
 			};
 
+			video.addEventListener("canplay", onReady);
+
+			// for ios
+			video.load();
+
 			/** Replay video when ended (loop) */
 			const onEnd = () => {
 				videoRef.current!.currentTime = 0;
 				videoRef.current!.play();
 			};
 
-			let focused: boolean = true;
-			/** Pause video when not in the tab */
-			const onVisibilityChange = () => {
-				focused = !focused;
-				if (!focused) video.pause();
-				else if (variables.playVideo) video.play();
-			};
-
-			document.addEventListener("visibilitychange", onVisibilityChange);
-			video.addEventListener("canplaythrough", onReady);
 			video.addEventListener("ended", onEnd);
 
 			return () => {
-				document.removeEventListener(
-					"visibilitychange",
-					onVisibilityChange
-				);
-
-				video.removeEventListener("canplaythrough", onReady);
+				video.removeEventListener("canplay", onReady);
 				video.removeEventListener("ended", onEnd);
 			};
-		}, [variables.playVideo]);
+		}, []);
 
 		return (
 			<div>
