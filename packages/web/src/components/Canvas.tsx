@@ -159,7 +159,14 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 			resizeCanvas();
 			window.addEventListener("resize", resizeCanvas, false);
 
+			const onObjectSelected = (opt: fabric.IEvent) => {
+				console.log("object selected", opt.target || opt.path);
+			};
+
 			// TODO: handle events (onTextDoubleClick)
+			canvas.on("selection:created", onObjectSelected);
+			canvas.on("selection:updated", onObjectSelected);
+
 			canvas.on("object:added", (opt) => {
 				const id = uuidv4();
 
@@ -182,10 +189,10 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 						const hide_frame_script =
 							script_clone[pinnedFrame + next_frame];
 
-					script_clone[pinnedFrame + next_frame] = {
+						script_clone[pinnedFrame + next_frame] = {
 							...hide_frame_script,
 							hide: [...(hide_frame_script?.hide ?? []), id],
-					};
+						};
 					}
 
 					return script_clone;
