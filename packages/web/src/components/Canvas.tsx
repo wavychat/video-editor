@@ -200,20 +200,16 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		}, []);
 
 		useEffect(() => {
-			/** Request Animation Frame on specific FPS */
 			const requestAnimFrame = () => requestAnimationFrame(animate);
 
 			const animate = () => {
 				const script = scriptRef.current;
-				const { pinnedFrame, playVideo } = variablesRef.current!;
+				const { pinnedFrame, playVideo, FPS } = variablesRef.current!;
 
-				if (!playVideo || pinnedFrame)
-					return requestAnimationFrame(animate);
+				if (!playVideo || pinnedFrame) return requestAnimFrame();
 
 				const frame =
-					Math.round(
-						videoRef.current?.currentTime! * variables.FPS
-					) ?? 1;
+					Math.round(videoRef.current?.currentTime! * FPS) ?? 1;
 
 				const frame_script = script[frame];
 
@@ -235,7 +231,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 				return requestAnimFrame();
 			};
 
-			requestAnimationFrame(animate);
+			requestAnimFrame();
 		}, []);
 
 		return (
