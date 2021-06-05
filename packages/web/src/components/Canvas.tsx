@@ -18,6 +18,7 @@ import {
 	IVariables,
 } from "../helpers/atoms";
 import { IScripting } from "../helpers/types/scripting";
+import { isMobile } from "react-device-detect";
 
 interface Props {
 	onTextDoubleClick?: (obj: any) => any;
@@ -163,33 +164,45 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 				const id = uuidv4();
 
 				setScript((script) => {
-					const { pinnedFrame = 1 } = variablesRef.current!;
+					let { pinnedFrame } = variablesRef.current!;
 					let script_clone = { ...script };
-					let t = script_clone[pinnedFrame];
-					const next_frame = 5;
-					let t2 = script_clone[pinnedFrame + next_frame];
+					const hasPinnedFrame: boolean = !!pinnedFrame;
+
+					if (!pinnedFrame) pinnedFrame = 1;
+
+					let frame_script = script_clone[pinnedFrame];
 
 					script_clone[pinnedFrame] = {
-						...t,
-						show: [...(t?.show ?? []), id],
+						...frame_script,
+						show: [...(frame_script?.show ?? []), id],
 					};
 
+					if (hasPinnedFrame) {
+						const next_frame = 5;
+						const hide_frame_script =
+							script_clone[pinnedFrame + next_frame];
+
 					script_clone[pinnedFrame + next_frame] = {
-						...t2,
-						hide: [...(t2?.hide ?? []), id],
+							...hide_frame_script,
+							hide: [...(hide_frame_script?.hide ?? []), id],
 					};
+					}
 
 					return script_clone;
 				});
 
-				if (opt.path) {
-					opt.path.id = id;
-					opt.path.hasControls = false;
-					opt.path.dirty = true;
-				} else if (opt.target) {
-					opt.target.id = id;
-					opt.target.hasControls = false;
-					opt.target.dirty = true;
+				const options: Partial<fabric.Object> = {
+					id,
+					dirty: true,
+					hasControls: !isMobile,
+				};
+
+				for (let _option_id in options) {
+					const option_id = _option_id as keyof fabric.Object;
+					opt[opt.target ? "target" : "path"]?.set(
+						option_id,
+						options[option_id]
+					);
 				}
 			});
 
