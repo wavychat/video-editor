@@ -21,6 +21,9 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 	};
 
 	const addImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+		const canvas = canvasRef.current?.getFabric();
+		if (!canvas) return;
+
 		for (let file of e.target.files || []) {
 			const reader = new FileReader();
 			reader.onload = (f) => {
@@ -34,7 +37,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 					if (h < w) img.scaleToHeight(h / 2);
 					else img.scaleToWidth(w / 2);
 
-					canvasRef.current?.getFabric()?.add(img).renderAll();
+					canvas.add(img).renderAll();
 					img.center();
 				});
 			};
