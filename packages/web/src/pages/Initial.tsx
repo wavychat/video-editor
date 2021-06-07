@@ -1,5 +1,6 @@
 import React from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { fabric } from "fabric";
 import { IEditCanvasRef } from "../components/Canvas";
 import { AppScreens, pageState, variablesState } from "../helpers/atoms";
 
@@ -19,6 +20,24 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		return setPage(AppScreens.TEXT);
 	};
 
+	const addImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+		for (let file of e.target.files || []) {
+			var reader = new FileReader();
+			reader.onload = (f) => {
+				const data = f.target?.result;
+				if (!data) return;
+
+				fabric.Image.fromURL(data.toString(), (img) => {
+					var oImg = img.scale(0.9);
+					canvasRef.current?.getFabric()?.add(oImg).renderAll();
+					oImg.center();
+				});
+			};
+
+			reader.readAsDataURL(file);
+		}
+	};
+
 	return (
 		<div>
 			<button onClick={() => setPage(AppScreens.DRAW)}>Draw</button>
@@ -35,6 +54,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			>
 				To JSON
 			</button>
+			<input type="file" accept="image/*" onChange={addImage} multiple />
 			{variables.playVideo && !variables.pinnedFrame ? (
 				<button
 					onClick={() =>
