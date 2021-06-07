@@ -39,7 +39,7 @@ export interface IVariables {
 	playVideo: boolean;
 
 	/** The frame that was pinned */
-	pinnedFrame?: number;
+	pinnedFrame?: number | undefined;
 
 	/** The ID of the selected text */
 	selectedTextId?: string;
