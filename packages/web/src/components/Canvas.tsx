@@ -159,6 +159,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 			resizeCanvas();
 			window.addEventListener("resize", resizeCanvas, false);
 
+			/** Add controls when object is selected */
 			const onObjectSelected = (opt: fabric.IEvent) => {
 				console.log("object selected", opt.target || opt.path);
 			};
@@ -167,6 +168,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 			canvas.on("selection:created", onObjectSelected);
 			canvas.on("selection:updated", onObjectSelected);
 
+			/** Modify script, add id and other properties to the canvas*/
 			canvas.on("object:added", (opt) => {
 				const id = uuidv4();
 
@@ -235,17 +237,20 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 				if (!frame_script) return requestAnimFrame();
 
+				// hide objects
 				for (let to_hide of frame_script.hide || []) {
 					const obj = getObject(to_hide);
 					if (!obj) continue;
 					obj.set("opacity", 0);
 				}
 
+				// show objects
 				for (const to_show of frame_script.show || []) {
 					const obj = getObject(to_show);
 					if (!obj) continue;
 					obj.set("opacity", 1);
 				}
+
 				fabricCanvasRef.current?.renderAll();
 
 				return requestAnimFrame();
