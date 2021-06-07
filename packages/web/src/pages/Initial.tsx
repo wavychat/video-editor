@@ -22,15 +22,20 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 
 	const addImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
 		for (let file of e.target.files || []) {
-			var reader = new FileReader();
+			const reader = new FileReader();
 			reader.onload = (f) => {
 				const data = f.target?.result;
 				if (!data) return;
 
 				fabric.Image.fromURL(data.toString(), (img) => {
-					var oImg = img.scale(0.9);
-					canvasRef.current?.getFabric()?.add(oImg).renderAll();
-					oImg.center();
+					const w = window.innerWidth;
+					const h = window.innerHeight;
+
+					if (h < w) img.scaleToHeight(h / 2);
+					else img.scaleToWidth(w / 2);
+
+					canvasRef.current?.getFabric()?.add(img).renderAll();
+					img.center();
 				});
 			};
 
