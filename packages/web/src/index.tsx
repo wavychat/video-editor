@@ -3,7 +3,6 @@ import "react-app-polyfill/ie11";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import { VideoEditor } from "./VideoEditor";
 import reportWebVitals from "./reportWebVitals";
 
