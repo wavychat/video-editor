@@ -1,0 +1,87 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "paths": [
+                    "src"
+                ],
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        }
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "plugin:cypress/recommended",
+        "airbnb",
+        "react-app"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "cypress",
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "import/prefer-default-export": 0,
+        "import/extensions": 0,
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".tsx",
+                    ".ts",
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "arrow-body-style": [
+            "error",
+            "as-needed"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "no-unused-vars": 1,
+        "no-console": 1,
+        "implicit-arrow-linebreak": [
+            "error",
+            "below"
+        ],
+        "indent": [
+            2,
+            "tab",
+            {
+                "SwitchCase": 1,
+                "VariableDeclarator": 1
+            }
+        ],
+        "no-tabs": 0,
+        "react/prop-types": 0,
+        "react/jsx-indent": [
+            2,
+            "tab"
+        ],
+        "react/jsx-indent-props": [
+            2,
+            "tab"
+        ]
+    }
+}
