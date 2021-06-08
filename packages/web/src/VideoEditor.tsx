@@ -11,7 +11,7 @@ interface Props {}
 export const VideoEditor: React.FC<Props> = () => {
 	return (
 		<RecoilRoot>
-			{!IS_PROD && <RecoilDebugger />}
+			{/* {!IS_PROD && <RecoilDebugger />} */}
 			<Container />
 		</RecoilRoot>
 	);
