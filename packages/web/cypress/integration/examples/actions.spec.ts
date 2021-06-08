@@ -1,3 +1,5 @@
+import "cypress";
+
 context("Actions", () => {
 	beforeEach(() => {
 		cy.visit("https://facebook.com");
