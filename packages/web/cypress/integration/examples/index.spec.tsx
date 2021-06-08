@@ -6,6 +6,6 @@ describe("Video editor renders", () => {
 	it("works", () => {
 		mount(<VideoEditor />);
 		// now use standard Cypress commands
-		cy.get("button").focus();
+		cy.get("button").click();
 	});
 });
