@@ -6,6 +6,8 @@ import ReactDOM from "react-dom";
 import { VideoEditor } from "./VideoEditor";
 import reportWebVitals from "./reportWebVitals";
 
+// TODO: add webview interactions and events here (or in an other file)
+
 ReactDOM.render(
 	<React.StrictMode>
 		<VideoEditor />

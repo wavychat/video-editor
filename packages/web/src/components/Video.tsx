@@ -76,7 +76,7 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 				<video
 					src="./test.mp4"
 					ref={videoRef}
-					muted={process.env.NODE_ENV === "development"}
+					muted={!IS_PROD}
 					style={{
 						position: "absolute",
 						zIndex: 1,
