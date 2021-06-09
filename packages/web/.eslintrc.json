@@ -81,6 +81,7 @@
         ],
         "no-unused-vars": 1,
         "no-console": 1,
+        "no-continue": 0,
         "implicit-arrow-linebreak": [
             "error",
             "below"
@@ -104,9 +105,7 @@
             "tab"
         ],
         "no-shadow": "off",
-        "@typescript-eslint/no-shadow": [
-            "error"
-        ],
+        "@typescript-eslint/no-shadow": "off",
         "import/no-extraneous-dependencies": [
             "error",
             {
@@ -117,6 +116,25 @@
                     "**/*.spec.tsx"
                 ]
             }
-        ]
+        ],
+        "curly": [
+            "error",
+            "multi"
+        ],
+        "nonblock-statement-body-position": [
+            "error",
+            "below"
+        ],
+        "no-plusplus": [
+            "error",
+            {
+                "allowForLoopAfterthoughts": true
+            }
+        ],
+        "no-multi-assign": 0,
+        "no-nested-ternary": 0,
+        "consistent-return": 0,
+        "jsx-a11y/media-has-caption": 0,
+        "no-underscore-dangle": 1
     }
 }
