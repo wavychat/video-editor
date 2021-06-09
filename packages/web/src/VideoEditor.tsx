@@ -8,11 +8,10 @@ import "./VideoEditor.css";
 
 interface Props {}
 
-export const VideoEditor: React.FC<Props> = () => {
-	return (
+export const VideoEditor: React.FC<Props> = () =>
+	(
 		<RecoilRoot>
 			{/* {!IS_PROD && <RecoilDebugger />} */}
 			<Container />
 		</RecoilRoot>
 	);
-};

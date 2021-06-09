@@ -4,7 +4,7 @@ import { VideoEditor } from "@video-editor/web";
 
 describe("Video editor renders", () => {
 	it("visits app", () => {
-		cy.visit("http://localhost:3000");
+	 cy.visit("http://localhost:3000");
 	});
 
 	it("works", () => {

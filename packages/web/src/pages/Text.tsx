@@ -1,5 +1,6 @@
-import React, { ChangeEventHandler, useEffect, useRef, useState } from "react";
-import { CirclePicker } from "react-color";
+import React, {
+	ChangeEventHandler, useRef, useState,
+} from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { IEditCanvasRef } from "../components/Canvas";
 import { AppScreens, pageState, variablesState } from "../helpers/atoms";
@@ -43,7 +44,7 @@ export const TextPage: React.FC<Props> = ({ canvasRef }) => {
 	// 	};
 	// }, []);
 
-	const changeObjectValue = (text: string) => {
+	const changeObjectValue = (newText: string) => {
 		textObject.current!.text = text.trim();
 	};
 
@@ -60,7 +61,7 @@ export const TextPage: React.FC<Props> = ({ canvasRef }) => {
 
 	return (
 		<div>
-			<button onClick={exitPage}>Exit</button>
+			<button onClick={exitPage} type="button">Exit</button>
 			<textarea
 				placeholder="Text goes here ..."
 				onChange={textChangeHandler}

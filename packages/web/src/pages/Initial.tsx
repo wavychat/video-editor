@@ -16,7 +16,8 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 	const createText = () => {
 		if (!canvasRef.current) return console.log("canvas not initialized");
 		const id = canvasRef.current.addText("");
-		setVariables((vars) => ({ ...vars, textId: id }));
+		setVariables((vars) =>
+			({ ...vars, textId: id }));
 		return setPage(AppScreens.TEXT);
 	};
 
@@ -24,7 +25,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		const canvas = canvasRef.current?.getFabric();
 		if (!canvas) return;
 
-		for (let file of e.target.files || []) {
+		for (const file of e.target.files || []) {
 			const reader = new FileReader();
 			reader.onload = (f) => {
 				const data = f.target?.result;
@@ -48,17 +49,23 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 
 	return (
 		<div>
-			<button onClick={() => setPage(AppScreens.DRAW)}>Draw</button>
-			<button onClick={createText}>Text</button>
-			<button onClick={canvasRef.current?.clear}>Clear All</button>
-			<button onClick={canvasRef.current?.undo}>Undo</button>
-			<button onClick={canvasRef.current?.redo}>Redo</button>
+			<button
+				onClick={() =>
+					setPage(AppScreens.DRAW)}
+				type="button"
+			>
+				Draw
+			</button>
+			<button onClick={createText} type="button">Text</button>
+			<button onClick={canvasRef.current?.clear} type="button">Clear All</button>
+			<button onClick={canvasRef.current?.undo} type="button">Undo</button>
+			<button onClick={canvasRef.current?.redo} type="button">Redo</button>
 			<button
 				onClick={() =>
 					console.log(
-						canvasRef.current?.getFabric()?.toObject(["id"]).objects
-					)
-				}
+						canvasRef.current?.getFabric()?.toObject(["id"]).objects,
+					)}
+				type="button"
 			>
 				To JSON
 			</button>
@@ -66,27 +73,29 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			{variables.playVideo && !variables.pinnedFrame ? (
 				<button
 					onClick={() =>
-						setVariables((vars) => ({
-							...vars,
-							playVideo: false,
-							pinnedFrame:
+						setVariables((vars) =>
+							({
+								...vars,
+								playVideo: false,
+								pinnedFrame:
 								Math.round(
-									videoRef.current?.currentTime! * vars.FPS
+									videoRef.current?.currentTime! * vars.FPS,
 								) ?? 1,
-						}))
-					}
+							}))}
+					type="button"
 				>
 					Pin frame
 				</button>
 			) : (
 				<button
 					onClick={() =>
-						setVariables((vars) => ({
-							...vars,
-							playVideo: true,
-							pinnedFrame: undefined,
-						}))
-					}
+						setVariables((vars) =>
+							({
+								...vars,
+								playVideo: true,
+								pinnedFrame: undefined,
+							}))}
+					type="button"
 				>
 					Unpin frame
 				</button>
