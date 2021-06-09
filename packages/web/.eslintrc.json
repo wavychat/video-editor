@@ -42,7 +42,6 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "plugin:cypress/recommended",
         "airbnb",
         "react-app"
     ],
@@ -56,7 +55,6 @@
     },
     "plugins": [
         "react",
-        "cypress",
         "@typescript-eslint"
     ],
     "rules": {
