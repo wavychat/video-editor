@@ -28,7 +28,7 @@
                         [
                             "@video-editor/native",
                             "../native"
-                        ],
+                        ]
                     ],
                     "extensions": [
                         ".ts",

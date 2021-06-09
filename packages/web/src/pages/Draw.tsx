@@ -61,8 +61,8 @@ export const DrawPage: React.FC<Props> = ({ canvasRef }) => {
 			<input
 				type="number"
 				value={lineOptions.size}
-				onChange={(ev) => 
-setLineOptions((opts) =>
+				onChange={(ev) =>
+					setLineOptions((opts) =>
 						({
 							...opts,
 							size: ev.currentTarget.valueAsNumber,
