@@ -8,6 +8,7 @@ import "fabric-history";
 
 // Brushes
 import { PSBrush } from "@arch-inc/fabricjs-psbrush";
+import { isMobile } from "react-device-detect";
 import { EraserBrush } from "../helpers/fabircEraserBursh";
 
 // Helpers
@@ -18,7 +19,6 @@ import {
 	IVariables,
 } from "../helpers/atoms";
 import { IScripting } from "../helpers/types/scripting";
-import { isMobile } from "react-device-detect";
 
 interface Props {
 	onTextDoubleClick?: (obj: any) => any;
@@ -54,7 +54,8 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 			const w = window.innerWidth;
 			const h = window.innerHeight;
 
-			if (!canvasRef.current || !fabricCanvasRef.current) return;
+			if (!canvasRef.current || !fabricCanvasRef.current)
+				return;
 
 			canvasRef.current.width = window.innerWidth;
 			canvasRef.current.height = window.innerHeight;
@@ -69,33 +70,40 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 			for (let i = 0; i < objects.length; i++) {
 				const object = objects[i];
-				if (object?.id === id) return object;
+				if (object?.id === id)
+					return object;
 			}
 		};
 
-		useImperativeHandle(ref, () => ({
-			clear: () => fabricCanvasRef.current?.clear(),
-			undo: () => fabricCanvasRef.current?.undo?.(),
-			redo: () => fabricCanvasRef.current?.redo?.(),
-			addText: (text) => {
-				const id = uuidv4();
-				const textbox = new fabric.IText(text, {
-					id,
-					textAlign: "center",
-					fill: "black",
-					textBackgroundColor: "white",
-					fontWeight: 700,
-					fontFamily: "Arial",
-				});
+		useImperativeHandle(ref, () =>
+			({
+				clear: () =>
+					fabricCanvasRef.current?.clear(),
+				undo: () =>
+					fabricCanvasRef.current?.undo?.(),
+				redo: () =>
+					fabricCanvasRef.current?.redo?.(),
+				addText: (text) => {
+					const id = uuidv4();
+					const textbox = new fabric.IText(text, {
+						id,
+						textAlign: "center",
+						fill: "black",
+						textBackgroundColor: "white",
+						fontWeight: 700,
+						fontFamily: "Arial",
+					});
 
-				fabricCanvasRef.current?.add(textbox);
-				textbox.center();
-				return id;
-			},
-			getFabric: () => fabricCanvasRef.current,
-			getCanvas: () => canvasRef.current,
-			getObject,
-		}));
+					fabricCanvasRef.current?.add(textbox);
+					textbox.center();
+					return id;
+				},
+				getFabric: () =>
+					fabricCanvasRef.current,
+				getCanvas: () =>
+					canvasRef.current,
+				getObject,
+			}));
 
 		useEffect(() => {
 			variablesRef.current = variables;
@@ -108,47 +116,43 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		}, [variables.isDrawing]);
 
 		useEffect(() => {
-			if (!fabricCanvasRef.current) return;
+			if (!fabricCanvasRef.current)
+				return;
 			if (variables.erasing) {
 				fabricCanvasRef.current.freeDrawingBrush = new EraserBrush(
-					fabricCanvasRef.current
+					fabricCanvasRef.current,
 				);
 				fabricCanvasRef.current.freeDrawingBrush.color = "#FF0000";
 				fabricCanvasRef.current.freeDrawingBrush.width = 20;
 			} else {
 				fabricCanvasRef.current.freeDrawingBrush = new PSBrush(
-					fabricCanvasRef.current
+					fabricCanvasRef.current,
 				);
-				fabricCanvasRef.current.freeDrawingBrush.color =
-					lineOptions.color;
-				fabricCanvasRef.current.freeDrawingBrush.width =
-					lineOptions.size;
-				fabricCanvasRef.current.freeDrawingBrush.globalCompositeOperation =
-					"destination-over";
+				fabricCanvasRef.current.freeDrawingBrush.color = lineOptions.color;
+				fabricCanvasRef.current.freeDrawingBrush.width = lineOptions.size;
+				fabricCanvasRef.current.freeDrawingBrush.globalCompositeOperation =					"destination-over";
 			}
 		}, [variables.erasing]);
 
 		useEffect(() => {
 			if (
-				fabricCanvasRef.current &&
-				lineOptions.color &&
-				!variables.erasing
+				fabricCanvasRef.current
+				&& lineOptions.color
+				&& !variables.erasing
 			)
-				fabricCanvasRef.current.freeDrawingBrush.color =
-					lineOptions.color;
+				fabricCanvasRef.current.freeDrawingBrush.color = lineOptions.color;
 		}, [lineOptions.color]);
 
 		useEffect(() => {
 			if (fabricCanvasRef.current && lineOptions.size)
-				fabricCanvasRef.current.freeDrawingBrush.width =
-					lineOptions.size;
+				fabricCanvasRef.current.freeDrawingBrush.width = lineOptions.size;
 		}, [lineOptions.size]);
 
 		useEffect(() => {
 			// init fabric.js
-			const canvas = (fabricCanvasRef.current = new fabric.Canvas(
-				canvasRef.current
-			));
+			const canvas = fabricCanvasRef.current = new fabric.Canvas(
+				canvasRef.current,
+			);
 
 			// init pressure brush
 			const brush = new PSBrush(canvas);
@@ -168,36 +172,36 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 			canvas.on("selection:created", onObjectSelected);
 			canvas.on("selection:updated", onObjectSelected);
 
-			/** Modify script, add id and other properties to the canvas*/
+			/** Modify script, add id and other properties to the canvas */
 			canvas.on("object:added", (opt) => {
 				const id = uuidv4();
 
 				setScript((script) => {
 					let { pinnedFrame } = variablesRef.current!;
-					let script_clone = { ...script };
+					const scriptClone = { ...script };
 					const hasPinnedFrame: boolean = !!pinnedFrame;
 
-					if (!pinnedFrame) pinnedFrame = 1;
+					if (!pinnedFrame)
+						pinnedFrame = 1;
 
-					let frame_script = script_clone[pinnedFrame];
+					const frameScript = scriptClone[pinnedFrame];
 
-					script_clone[pinnedFrame] = {
-						...frame_script,
-						show: [...(frame_script?.show ?? []), id],
+					scriptClone[pinnedFrame] = {
+						...frameScript,
+						show: [...(frameScript?.show ?? []), id],
 					};
 
 					if (hasPinnedFrame) {
-						const next_frame = 5;
-						const hide_frame_script =
-							script_clone[pinnedFrame + next_frame];
+						const nextFrame = 5;
+						const hideFrameScript = scriptClone[pinnedFrame + nextFrame];
 
-						script_clone[pinnedFrame + next_frame] = {
-							...hide_frame_script,
-							hide: [...(hide_frame_script?.hide ?? []), id],
+						scriptClone[pinnedFrame + nextFrame] = {
+							...hideFrameScript,
+							hide: [...(hideFrameScript?.hide ?? []), id],
 						};
 					}
 
-					return script_clone;
+					return scriptClone;
 				});
 
 				const options: Partial<fabric.Object> = {
@@ -206,13 +210,14 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 					hasControls: !isMobile,
 				};
 
-				for (let _option_id in options) {
-					const option_id = _option_id as keyof fabric.Object;
-					opt[opt.target ? "target" : "path"]?.set(
-						option_id,
-						options[option_id]
-					);
-				}
+				for (const tempOptionId in options)
+					if ({}.hasOwnProperty.call(options, tempOptionId)) {
+						const optionId = tempOptionId as keyof fabric.Object;
+						opt[opt.target ? "target" : "path"]?.set(
+							optionId,
+							options[optionId],
+						);
+					}
 			});
 
 			return () => {
@@ -222,32 +227,36 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		}, []);
 
 		useEffect(() => {
-			const requestAnimFrame = () => requestAnimationFrame(animate);
+			const requestAnimFrame = () =>
+				requestAnimationFrame(animate);
 
 			const animate = () => {
 				const script = scriptRef.current;
 				const { pinnedFrame, playVideo, FPS } = variablesRef.current!;
 
-				if (!playVideo || pinnedFrame) return requestAnimFrame();
+				if (!playVideo || pinnedFrame)
+					return requestAnimFrame();
 
-				const frame =
-					Math.round(videoRef.current?.currentTime! * FPS) ?? 1;
+				const frame = Math.round(videoRef.current?.currentTime! * FPS) ?? 1;
 
-				const frame_script = script[frame];
+				const frameScript = script[frame];
 
-				if (!frame_script) return requestAnimFrame();
+				if (!frameScript)
+					return requestAnimFrame();
 
 				// hide objects
-				for (let to_hide of frame_script.hide || []) {
-					const obj = getObject(to_hide);
-					if (!obj) continue;
+				for (const toHide of frameScript.hide || []) {
+					const obj = getObject(toHide);
+					if (!obj)
+						continue;
 					obj.set("opacity", 0);
 				}
 
 				// show objects
-				for (const to_show of frame_script.show || []) {
-					const obj = getObject(to_show);
-					if (!obj) continue;
+				for (const toShow of frameScript.show || []) {
+					const obj = getObject(toShow);
+					if (!obj)
+						continue;
 					obj.set("opacity", 1);
 				}
 
@@ -271,7 +280,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 				<canvas ref={canvasRef} />
 			</div>
 		);
-	}
+	},
 );
 
 EditCanvas.displayName = "EditCanvas";

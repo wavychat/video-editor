@@ -14,7 +14,8 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 	const [variables, setVariables] = useRecoilState(variablesState);
 
 	const createText = () => {
-		if (!canvasRef.current) return console.log("canvas not initialized");
+		if (!canvasRef.current)
+			return console.log("canvas not initialized");
 		const id = canvasRef.current.addText("");
 		setVariables((vars) =>
 			({ ...vars, textId: id }));
@@ -23,20 +24,24 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 
 	const addImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
 		const canvas = canvasRef.current?.getFabric();
-		if (!canvas) return;
+		if (!canvas)
+			return;
 
 		for (const file of e.target.files || []) {
 			const reader = new FileReader();
 			reader.onload = (f) => {
 				const data = f.target?.result;
-				if (!data) return;
+				if (!data)
+					return;
 
 				fabric.Image.fromURL(data.toString(), (img) => {
 					const w = window.innerWidth;
 					const h = window.innerHeight;
 
-					if (h < w) img.scaleToHeight(h / 2);
-					else img.scaleToWidth(w / 2);
+					if (h < w)
+						img.scaleToHeight(h / 2);
+					else
+						img.scaleToWidth(w / 2);
 
 					canvas.add(img).renderAll();
 					img.center();

@@ -10,13 +10,16 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 		const videoRef = useRef<HTMLVideoElement>(null);
 		const [variables, setVariables] = useRecoilState(variablesState);
 
-		useImperativeHandle(ref, () => videoRef.current!);
+		useImperativeHandle(ref, () =>
+			(videoRef.current!));
 
 		useEffect(() => {
 			const video = videoRef.current;
-			if (!video) return;
+			if (!video)
+				return;
 
-			if (variables.playVideo) video.play();
+			if (variables.playVideo)
+				video.play();
 			else {
 				console.log("stopped at frame", variables.pinnedFrame);
 				video.pause();
@@ -27,8 +30,10 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 			/** Pause video when not in the tab */
 			const onVisibilityChange = () => {
 				focused = !focused;
-				if (!focused) video.pause();
-				else if (variables.playVideo) video.play();
+				if (!focused)
+					video.pause();
+				else if (variables.playVideo)
+					video.play();
 			};
 
 			document.addEventListener("visibilitychange", onVisibilityChange);
@@ -36,21 +41,23 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 			return () => {
 				document.removeEventListener(
 					"visibilitychange",
-					onVisibilityChange
+					onVisibilityChange,
 				);
 			};
 		}, [variables.playVideo]);
 
 		useEffect(() => {
 			const video = videoRef.current;
-			if (!video) return;
+			if (!video)
+				return;
 
 			/** On video loaded and ready to be played */
 			const onReady = () => {
-				setVariables((vars) => ({
-					...vars,
-					playVideo: true,
-				}));
+				setVariables((vars) =>
+					({
+						...vars,
+						playVideo: true,
+					}));
 			};
 
 			video.addEventListener("canplay", onReady);
@@ -87,7 +94,7 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 				/>
 			</div>
 		);
-	}
+	},
 );
 
 BackgroundVideo.displayName = "BackgroundVideo";

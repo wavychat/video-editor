@@ -15,11 +15,12 @@ import BackgroundVideo from "./Video";
 
 interface Props {}
 
-export const Container: React.FC<Props> = (props) => (
-	<div id="video_editor_canvas_container_1">
-		<Content />
-	</div>
-);
+export const Container: React.FC<Props> = (props) =>
+	(
+		<div id="video_editor_canvas_container_1">
+			<Content />
+		</div>
+	);
 
 const Content: React.FC = () => {
 	const [started, setStart] = useState<boolean>(false);
@@ -34,17 +35,18 @@ const Content: React.FC = () => {
 		setLoading(false);
 	};
 
-	const start = () => {
-		return setStart(true);
-	};
+	const start = () =>
+		setStart(true);
 
 	useEffect(() => {
 		load();
 	}, []);
 
-	if (loading) return <span className="text-white">Loading...</span>;
+	if (loading)
+		return <span className="text-white">Loading...</span>;
 
-	if (!started) return <button onClick={start}>Start</button>;
+	if (!started)
+		return <button onClick={start} type="button">Start</button>;
 
 	return (
 		<>

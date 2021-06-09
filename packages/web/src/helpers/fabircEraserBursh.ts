@@ -10,11 +10,11 @@ import { fabric } from "fabric";
 const ErasedGroup = fabric.util.createClass(fabric.Group, {
 	original: null,
 	erasedPath: null,
-	initialize: function (
+	initialize(
 		original: any,
 		erasedPath: any,
 		options: any,
-		isAlreadyGrouped: any
+		isAlreadyGrouped: any,
 	) {
 		this.original = original;
 		this.erasedPath = erasedPath;
@@ -22,18 +22,18 @@ const ErasedGroup = fabric.util.createClass(fabric.Group, {
 			"initialize",
 			[this.original, this.erasedPath],
 			options,
-			isAlreadyGrouped
+			isAlreadyGrouped,
 		);
 	},
 
-	_calcBounds: function (onlyWidthHeight: any) {
-		const aX = [],
-			aY = [],
-			props = ["tr", "br", "bl", "tl"],
-			jLen = props.length,
-			ignoreZoom = true;
+	_calcBounds(onlyWidthHeight: any) {
+		const aX = [];
+		const aY = [];
+		const props = ["tr", "br", "bl", "tl"];
+		const jLen = props.length;
+		const ignoreZoom = true;
 
-		let o = this.original;
+		const o = this.original;
 		o.setCoords(ignoreZoom);
 		for (let j = 0; j < jLen; j++) {
 			aX.push(o.oCoords[props[j]].x);
@@ -56,13 +56,13 @@ export const EraserBrush = fabric.util.createClass(fabric.PencilBrush, {
 	 * we use the points captured to create an new fabric path object
 	 * and add it to the fabric canvas.
 	 */
-	_finalizeAndAddPath: function () {
-		var ctx = this.canvas.contextTop;
+	_finalizeAndAddPath() {
+		const ctx = this.canvas.contextTop;
 		ctx.closePath();
-		if (this.decimate) {
+		if (this.decimate)
 			this._points = this.decimatePoints(this._points, this.decimate);
-		}
-		var pathData = this.convertPointsToSVGPath(this._points).join("");
+
+		const pathData = this.convertPointsToSVGPath(this._points).join("");
 		if (pathData === "M 0 0 Q 0 0 0 0 L 0 0") {
 			// do not create 0 width/height paths, as they are
 			// rendered inconsistently across browsers
@@ -73,7 +73,7 @@ export const EraserBrush = fabric.util.createClass(fabric.PencilBrush, {
 		}
 
 		// use globalCompositeOperation to 'fake' eraser
-		var path = this.createPath(pathData);
+		const path = this.createPath(pathData);
 		path.globalCompositeOperation = "destination-out";
 		path.selectable = false;
 		path.evented = false;
@@ -85,7 +85,8 @@ export const EraserBrush = fabric.util.createClass(fabric.PencilBrush, {
 			.filter((obj: fabric.Object) => {
 				// if (obj instanceof fabric.Textbox) return false;
 				// if (obj instanceof fabric.IText) return false;
-				if (!obj.intersectsWithObject(path)) return false;
+				if (!obj.intersectsWithObject(path))
+					return false;
 				return true;
 			});
 
@@ -98,8 +99,8 @@ export const EraserBrush = fabric.util.createClass(fabric.PencilBrush, {
 			// however, there will be a visible lag when there's many objects affected by this
 			const newPath = new ErasedGroup(mergedGroup, path);
 
-			const left = newPath.left;
-			const top = newPath.top;
+			const { left } = newPath;
+			const { top } = newPath;
 
 			// convert it into a dataURL, then back to a fabric image
 			const newData = newPath.toDataURL({
@@ -107,8 +108,8 @@ export const EraserBrush = fabric.util.createClass(fabric.PencilBrush, {
 			});
 			fabric.Image.fromURL(newData, (fabricImage) => {
 				fabricImage.set({
-					left: left,
-					top: top,
+					left,
+					top,
 				});
 
 				// remove the old objects then add the new image
