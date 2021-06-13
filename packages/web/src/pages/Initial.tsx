@@ -63,6 +63,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			</button>
 
 			<button
+				// TODO: Add to recoil states isExporting and prevent looping (function in ref or in use effect), etc.. from happening
 				onClick={() => {
 					const canvas = canvasRef.current?.getCanvas();
 					const fabricCanvas = canvasRef.current?.getFabric();
@@ -74,7 +75,6 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 					const stream = canvas.captureStream(variables.FPS);
 
 					console.log(stream);
-					// TODO: Add to recoil states isExporting and prevent looping, etc.. from happening
 
 					const chunks: Blob[] = [];
 					const recorder = new MediaRecorder(stream!);

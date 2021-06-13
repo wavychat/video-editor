@@ -209,6 +209,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 					return scriptClone;
 				});
 
+				// TODO: set selectable to false if exporting state is true
 				const options: Partial<fabric.Object> = {
 					id,
 					dirty: true,
