@@ -22,9 +22,9 @@ export let charWidthsCache: {
 
 export type ObjectID = string;
 
-/////////////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////////
 // fabric Functions
-/////////////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////////
 
 export function createCanvasForNode(width: number, height: number): Canvas;
 
@@ -150,10 +150,10 @@ export function log(...values: any[]): void;
  */
 export function warn(...values: any[]): void;
 
-///////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////
 // Data Object Interfaces - These interface are not specific part of fabric,
 // They are just helpful for for defining function parameters
-//////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////
 interface IDataURLOptions {
 	/**
 	 * The format of the output image. Either "jpeg" or "png"
@@ -267,9 +267,9 @@ interface IViewBox {
 	height: number;
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////
 // Mixins Interfaces
-//////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////
 interface ICollection<T> {
 	_objects: Object[];
 
@@ -465,9 +465,9 @@ interface IAnimationOptions {
 	by?: number;
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////
 // General Fabric Interfaces
-//////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////
 export class Color {
 	/**
 	 * Color class
@@ -537,6 +537,7 @@ export class Color {
 	 * Transforms color to its black and white representation
 	 */
 	toBlackWhite(threshold: number): Color;
+
 	/**
 	 * Overlays color with another color
 	 */
@@ -547,31 +548,37 @@ export class Color {
 	 * @param color Color value ex: rgb(0-255,0-255,0-255)
 	 */
 	static fromRgb(color: string): Color;
+
 	/**
 	 * Returns new color object, when given a color in RGBA format
 	 * @param color Color value ex: rgb(0-255,0-255,0-255)
 	 */
 	static fromRgba(color: string): Color;
+
 	/**
 	 * Returns array represenatation (ex: [100, 100, 200, 1]) of a color that's in RGB or RGBA format
 	 * @param color Color value ex: rgb(0-255,0-255,0-255), rgb(0%-100%,0%-100%,0%-100%)
 	 */
 	static sourceFromRgb(color: string): number[];
+
 	/**
 	 * Returns new color object, when given a color in HSL format
 	 * @param color Color value ex: hsl(0-260,0%-100%,0%-100%)
 	 */
 	static fromHsl(color: string): Color;
+
 	/**
 	 * Returns new color object, when given a color in HSLA format
 	 * @param color Color value ex: hsl(0-260,0%-100%,0%-100%)
 	 */
 	static fromHsla(color: string): Color;
+
 	/**
 	 * Returns array represenatation (ex: [100, 100, 200, 1]) of a color that's in HSL or HSLA format.
 	 * @param color Color value ex: hsl(0-360,0%-100%,0%-100%) or hsla(0-360,0%-100%,0%-100%, 0-1)
 	 */
 	static sourceFromHsl(color: string): number[];
+
 	/**
 	 * Returns new color object, when given a color in HEX format
 	 * @param color Color value ex: FF5555
@@ -583,10 +590,12 @@ export class Color {
 	 * @param color ex: FF5555
 	 */
 	static sourceFromHex(color: string): number[];
+
 	/**
 	 * Returns new color object, when given color in array representation (ex: [200, 100, 100, 0.5])
 	 */
 	static fromSource(source: number[]): Color;
+
 	/**
 	 * Regex matching color in HEX format (ex: #FF5544CC, #FF5555, 010155, aff)
 	 * @static
@@ -594,6 +603,7 @@ export class Color {
 	 * @memberOf fabric.Color
 	 */
 	static reHex: RegExp;
+
 	/**
 	 * Regex matching color in HSL or HSLA formats (ex: hsl(200, 80%, 10%), hsla(300, 50%, 80%, 0.5), hsla( 300 , 50% , 80% , 0.5 ))
 	 * @static
@@ -601,6 +611,7 @@ export class Color {
 	 * @memberOf fabric.Color
 	 */
 	static reHSLa: RegExp;
+
 	/**
 	 * Regex matching color in RGB or RGBA formats (ex: rgb(0, 0, 0), rgba(255, 100, 10, 0.5), rgba( 255 , 100 , 10 , 0.5 ), rgb(1,1,1), rgba(100%, 60%, 10%, 0.5))
 	 * @static
@@ -685,26 +696,31 @@ export class Gradient {
 		colorStops?: IGradientOptionsColorStops;
 		coords?: IGradientOptionsCoords;
 	});
+
 	/**
 	 * Adds another colorStop
 	 * @param colorStop Object with offset and color
 	 */
 	addColorStop(colorStop: any): Gradient;
+
 	/**
 	 * Returns object representation of a gradient
 	 */
 	toObject(propertiesToInclude?: any): any;
+
 	/**
 	 * Returns SVG representation of an gradient
 	 * @param {Object} object Object to create a gradient for
 	 * @return {String} SVG representation of an gradient (linear/radial)
 	 */
 	toSVG(object: any): string;
+
 	/**
 	 * Returns an instance of CanvasGradient
 	 * @param ctx Context to render on
 	 */
 	toLive(ctx: CanvasRenderingContext2D): CanvasGradient;
+
 	/**
 	 * Returns {@link fabric.Gradient} instance from an SVG element
 	 * @static
@@ -719,14 +735,17 @@ export class Gradient {
 }
 export class Intersection {
 	constructor(status?: string);
+
 	/**
 	 * Appends a point to intersection
 	 */
 	appendPoint(point: Point): Intersection;
+
 	/**
 	 * Appends points to intersection
 	 */
 	appendPoints(points: Point[]): Intersection;
+
 	/**
 	 * Checks if one line intersects another
 	 */
@@ -736,6 +755,7 @@ export class Intersection {
 		b1: Point,
 		b2: Point
 	): Intersection;
+
 	/**
 	 * Checks if line intersects polygon
 	 */
@@ -744,6 +764,7 @@ export class Intersection {
 		a2: Point,
 		points: Point[]
 	): Intersection;
+
 	/**
 	 * Checks if polygon intersects another polygon
 	 */
@@ -751,6 +772,7 @@ export class Intersection {
 		points1: Point[],
 		points2: Point[]
 	): Intersection;
+
 	/**
 	 * Checks if polygon intersects rectangle
 	 */
@@ -799,19 +821,23 @@ export class Pattern {
 	id: number;
 
 	constructor(options?: IPatternOptions);
+
 	/**
 	 * Returns object representation of a pattern
 	 * @param {Array} [propertiesToInclude] Any properties that you might want to additionally include in the output
 	 * @return {Object} Object representation of a pattern instance
 	 */
 	toObject(propertiesToInclude: any): any;
+
 	/**
 	 * Returns SVG representation of a pattern
 	 * @param {fabric.Object} object
 	 * @return {String} SVG representation of a pattern
 	 */
 	toSVG(object: Object): string;
+
 	setOptions(options: IPatternOptions): void;
+
 	/**
 	 * Returns an instance of CanvasPattern
 	 * @param {CanvasRenderingContext2D} ctx Context to create pattern
@@ -821,15 +847,20 @@ export class Pattern {
 }
 export class Point {
 	x: number;
+
 	y: number;
+
 	type: string;
+
 	constructor(x: number, y: number);
+
 	/**
 	 * Adds another point to this one and returns another one
 	 * @param {fabric.Point} that
 	 * @return {fabric.Point} new Point instance with added values
 	 */
 	add(that: Point): Point;
+
 	/**
 	 * Adds another point to this one
 	 * @param {fabric.Point} that
@@ -837,12 +868,14 @@ export class Point {
 	 * @chainable
 	 */
 	addEquals(that: Point): Point;
+
 	/**
 	 * Adds value to this point and returns a new one
 	 * @param {Number} scalar
 	 * @return {fabric.Point} new Point with added value
 	 */
 	scalarAdd(scalar: number): Point;
+
 	/**
 	 * Adds value to this point
 	 * @param {Number} scalar
@@ -850,12 +883,14 @@ export class Point {
 	 * @chainable
 	 */
 	scalarAddEquals(scalar: number): Point;
+
 	/**
 	 * Subtracts another point from this point and returns a new one
 	 * @param {fabric.Point} that
 	 * @return {fabric.Point} new Point object with subtracted values
 	 */
 	subtract(that: Point): Point;
+
 	/**
 	 * Subtracts another point from this point
 	 * @param {fabric.Point} that
@@ -863,12 +898,14 @@ export class Point {
 	 * @chainable
 	 */
 	subtractEquals(that: Point): Point;
+
 	/**
 	 * Subtracts value from this point and returns a new one
 	 * @param {Number} scalar
 	 * @return {fabric.Point}
 	 */
 	scalarSubtract(scalar: number): Point;
+
 	/**
 	 * Subtracts value from this point
 	 * @param {Number} scalar
@@ -876,12 +913,14 @@ export class Point {
 	 * @chainable
 	 */
 	scalarSubtractEquals(scalar: number): Point;
+
 	/**
 	 * Multiplies this point by a value and returns a new one
 	 * @param {Number} scalar
 	 * @return {fabric.Point}
 	 */
 	multiply(scalar: number): Point;
+
 	/**
 	 * Multiplies this point by a value
 	 * @param {Number} scalar
@@ -889,12 +928,14 @@ export class Point {
 	 * @chainable
 	 */
 	multiplyEquals(scalar: number): Point;
+
 	/**
 	 * Divides this point by a value and returns a new one
 	 * @param {Number} scalar
 	 * @return {fabric.Point}
 	 */
 	divide(scalar: number): Point;
+
 	/**
 	 * Divides this point by a value
 	 * @param {Number} scalar
@@ -902,36 +943,42 @@ export class Point {
 	 * @chainable
 	 */
 	divideEquals(scalar: number): Point;
+
 	/**
 	 * Returns true if this point is equal to another one
 	 * @param {fabric.Point} that
 	 * @return {Boolean}
 	 */
 	eq(that: Point): Point;
+
 	/**
 	 * Returns true if this point is less than another one
 	 * @param {fabric.Point} that
 	 * @return {Boolean}
 	 */
 	lt(that: Point): Point;
+
 	/**
 	 * Returns true if this point is less than or equal to another one
 	 * @param {fabric.Point} that
 	 * @return {Boolean}
 	 */
 	lte(that: Point): Point;
+
 	/**
 	 * Returns true if this point is greater another one
 	 * @param {fabric.Point} that
 	 * @return {Boolean}
 	 */
 	gt(that: Point): Point;
+
 	/**
 	 * Returns true if this point is greater than or equal to another one
 	 * @param {fabric.Point} that
 	 * @return {Boolean}
 	 */
 	gte(that: Point): Point;
+
 	/**
 	 * Returns new point which is the result of linear interpolation with this one and another one
 	 * @param {fabric.Point} that
@@ -939,35 +986,41 @@ export class Point {
 	 * @return {fabric.Point}
 	 */
 	lerp(that: Point, t: number): Point;
+
 	/**
 	 * Returns distance from this point and another one
 	 * @param {fabric.Point} that
 	 * @return {Number}
 	 */
 	distanceFrom(that: Point): number;
+
 	/**
 	 * Returns the point between this point and another one
 	 * @param {fabric.Point} that
 	 * @return {fabric.Point}
 	 */
 	midPointFrom(that: Point): Point;
+
 	/**
 	 * Returns a new point which is the min of this and another one
 	 * @param {fabric.Point} that
 	 * @return {fabric.Point}
 	 */
 	min(that: Point): Point;
+
 	/**
 	 * Returns a new point which is the max of this and another one
 	 * @param {fabric.Point} that
 	 * @return {fabric.Point}
 	 */
 	max(that: Point): Point;
+
 	/**
 	 * Returns string representation of this point
 	 * @return {String}
 	 */
 	toString(): string;
+
 	/**
 	 * Sets x/y of this point
 	 * @param {Number} x
@@ -975,29 +1028,34 @@ export class Point {
 	 * @chainable
 	 */
 	setXY(x: number, y: number): Point;
+
 	/**
 	 * Sets x of this point
 	 * @param {Number} x
 	 * @chainable
 	 */
 	setX(x: number): Point;
+
 	/**
 	 * Sets y of this point
 	 * @param {Number} y
 	 * @chainable
 	 */
 	setY(y: number): Point;
+
 	/**
 	 * Sets x/y of this point from another point
 	 * @param {fabric.Point} that
 	 * @chainable
 	 */
 	setFromPoint(that: Point): Point;
+
 	/**
 	 * Swaps x/y of this point and another point
 	 * @param {fabric.Point} that
 	 */
 	swap(that: Point): Point;
+
 	/**
 	 * return a cloned instance of the point
 	 * @return {fabric.Point}
@@ -1041,24 +1099,29 @@ interface IShadowOptions {
 export interface Shadow extends IShadowOptions {}
 export class Shadow {
 	constructor(options?: IShadowOptions | string);
+
 	initialize(options?: IShadowOptions | string): Shadow;
+
 	/**
 	 * Returns a string representation of an instance
 	 * @see http://www.w3.org/TR/css-text-decor-3/#text-shadow
 	 * @return {String} Returns CSS3 text-shadow declaration
 	 */
 	toString(): string;
+
 	/**
 	 * Returns SVG representation of a shadow
 	 * @param {fabric.Object} object
 	 * @return {String} SVG representation of a shadow
 	 */
 	toSVG(object: Object): string;
+
 	/**
 	 * Returns object representation of a shadow
 	 * @return {Object} Object representation of a shadow instance
 	 */
 	toObject(): any;
+
 	/**
 	 * Regex matching shadow offsetX, offsetY and blur (ex: "2px 2px 10px rgba(0,0,0,0.2)", "rgb(0,255,0) 2px 2px")
 	 * @static
@@ -1068,9 +1131,9 @@ export class Shadow {
 	static reOffsetsAndBlur: RegExp;
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////
 // Canvas Interfaces
-//////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////
 interface ICanvasDimensions {
 	/**
 	 * Width of canvas element
@@ -2014,6 +2077,7 @@ interface ICanvasOptions extends IStaticCanvasOptions {
 }
 export interface Canvas extends StaticCanvas {}
 export interface Canvas extends ICanvasOptions {}
+
 export class Canvas {
 	/**
 	 * Constructor
@@ -2025,15 +2089,22 @@ export class Canvas {
 		options?: ICanvasOptions
 	);
 
+	/** Access the canvas element used by fabricjs */
+	upperCanvasEl: HTMLCanvasElement;
+
 	/**
 	 * When true, target detection is skipped when hovering over canvas. This can be used to improve performance.
 	 * @type Boolean
 	 * @default
 	 */
 	skipTargetFind: boolean;
+
 	_activeObject: Object;
+
 	_objects: Object[];
+
 	targets: Object[];
+
 	/**
 	 * Indicates which key enable alternative selection
 	 * in case of target overlapping with active object
@@ -2054,6 +2125,7 @@ export class Canvas {
 	 * @chainable
 	 */
 	renderAll(): Canvas;
+
 	/**
 	 * Method to render only the top canvas.
 	 * Also used to render the group selection box.
@@ -2061,6 +2133,7 @@ export class Canvas {
 	 * @chainable
 	 */
 	renderTop(): Canvas;
+
 	/**
 	 * Checks if point is contained within an area of given object
 	 * @param {Event} e Event object
@@ -2073,6 +2146,7 @@ export class Canvas {
 		target: Object,
 		point?: { x: number; y: number }
 	): boolean;
+
 	/**
 	 * Returns true if object is transparent at a certain location
 	 * @param {fabric.Object} target Object to check
@@ -2081,12 +2155,14 @@ export class Canvas {
 	 * @return {Boolean}
 	 */
 	isTargetTransparent(target: Object, x: number, y: number): boolean;
+
 	/**
 	 * Set the cursor type of the canvas element
 	 * @param {String} value Cursor type of the canvas element.
 	 * @see http://www.w3.org/TR/css3-ui/#cursor
 	 */
 	setCursor(value: string): void;
+
 	/**
 	 * Method that determines what object we are clicking on
 	 * the skipGroup parameter is for internal use, is needed for shift+click action
@@ -2097,12 +2173,14 @@ export class Canvas {
 	 * @return {fabric.Object} the target found
 	 */
 	findTarget(e: Event, skipGroup: boolean): Object | undefined;
+
 	/**
 	 * Returns pointer coordinates without the effect of the viewport
 	 * @param {Object} pointer with "x" and "y" number values
 	 * @return {Object} object with "x" and "y" number values
 	 */
 	restorePointerVpt(pointer: Point): any;
+
 	/**
 	 * Returns pointer coordinates relative to canvas.
 	 * Can return coordinates with or without viewportTransform.
@@ -2122,26 +2200,31 @@ export class Canvas {
 	 * @return {Object} object with "x" and "y" number values
 	 */
 	getPointer(e: Event, ignoreZoom?: boolean): { x: number; y: number };
+
 	/**
 	 * Returns context of canvas where object selection is drawn
 	 * @return {CanvasRenderingContext2D}
 	 */
 	getSelectionContext(): CanvasRenderingContext2D;
+
 	/**
 	 * Returns <canvas> element on which object selection is drawn
 	 * @return {HTMLCanvasElement}
 	 */
 	getSelectionElement(): HTMLCanvasElement;
+
 	/**
 	 * Returns currently active object
 	 * @return {fabric.Object} active object
 	 */
 	getActiveObject(): Object;
+
 	/**
 	 * Returns an array with the current selected objects
 	 * @return {fabric.Object} active object
 	 */
 	getActiveObjects(): Object[];
+
 	/**
 	 * Sets given object as the only active object on canvas
 	 * @param {fabric.Object} object Object to set as an active one
@@ -2150,6 +2233,7 @@ export class Canvas {
 	 * @chainable
 	 */
 	setActiveObject(object: Object, e?: Event): Canvas;
+
 	/**
 	 * Discards currently active object and fire events. If the function is called by fabric
 	 * as a consequence of a mouse event, the event is passed as a parameter and
@@ -2160,23 +2244,27 @@ export class Canvas {
 	 * @chainable
 	 */
 	discardActiveObject(e?: Event): Canvas;
+
 	/**
 	 * Clears a canvas element and removes all event listeners
 	 * @return {fabric.Canvas} thisArg
 	 * @chainable
 	 */
 	dispose(): Canvas;
+
 	/**
 	 * Clears all contexts (background, main, top) of an instance
 	 * @return {fabric.Canvas} thisArg
 	 * @chainable
 	 */
 	clear(): Canvas;
+
 	/**
 	 * Draws objects' controls (borders/controls)
 	 * @param {CanvasRenderingContext2D} ctx Context to render controls on
 	 */
 	drawControls(ctx: CanvasRenderingContext2D): void;
+
 	/**
 	 * @private
 	 * @return {Boolean} true if the scaling occurred
@@ -2190,6 +2278,7 @@ export class Canvas {
 		lockScalingFlip: boolean,
 		_dim: Point
 	): boolean;
+
 	/**
 	 * Scales object by invoking its scaleX/scaleY methods
 	 * @private
@@ -2200,27 +2289,32 @@ export class Canvas {
 	 * @return {Boolean} true if the scaling occurred
 	 */
 	_scaleObject(x: number, y: number, by?: "x" | "y" | "equally"): boolean;
+
 	/**
 	 * @private
 	 * @param {fabric.Object} obj Object that was removed
 	 */
 	_onObjectRemoved(obj: Object): void;
+
 	/**
 	 * @private
 	 * @param {fabric.Object} obj Object that was added
 	 */
 	_onObjectAdded(obj: Object): void;
+
 	/**
 	 * Resets the current transform to its original values and chooses the type of resizing based on the event
 	 * @private
 	 */
 	_resetCurrentTransform(): void;
+
 	/**
 	 * @private
 	 * Compares the old activeObject with the current one and fires correct events
 	 * @param {fabric.Object} obj old activeObject
 	 */
 	_fireSelectionEvents(oldObjects: Object[], e?: Event): void;
+
 	/**
 	 * @private
 	 * @param {Object} object to set as active
@@ -2228,6 +2322,7 @@ export class Canvas {
 	 * @return {Boolean} true if the selection happened
 	 */
 	_setActiveObject(object: fabric.Object, e?: Event): boolean;
+
 	/**
 	 * Returns pointer coordinates relative to canvas.
 	 * Can return coordinates with or without viewportTransform.
@@ -2247,6 +2342,7 @@ export class Canvas {
 	 * @return {Object} object with "x" and "y" number values
 	 */
 	getPointer(e: Event, ignoreZoom: boolean): { x: number; y: number };
+
 	/**
 	 * Function used to search inside objects an object that contains pointer in bounding box or that contains pointerOnCanvas when painted
 	 * @param {Array} [objects] objects array to look into
@@ -2260,6 +2356,7 @@ export class Canvas {
 	): Object;
 
 	static EMPTY_JSON: string;
+
 	/**
 	 * Provides a way to check support of some of the canvas methods
 	 * (either those of HTMLCanvasElement itself, or rendering context)
@@ -2272,20 +2369,22 @@ export class Canvas {
 			| "toDataURLWithQuality"
 			| "setLineDash"
 	): boolean;
+
 	/**
 	 * Returns JSON representation of canvas
 	 * @param [propertiesToInclude] Any properties that you might want to additionally include in the output
 	 */
 	static toJSON(propertiesToInclude?: string[]): string;
+
 	/**
 	 * Removes all event listeners
 	 */
 	removeListeners(): void;
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////
 // Shape Interfaces
-//////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////
 
 interface ICircleOptions extends IObjectOptions {
 	/**
@@ -2304,34 +2403,41 @@ interface ICircleOptions extends IObjectOptions {
 export interface Circle extends Object, ICircleOptions {}
 export class Circle {
 	constructor(options?: ICircleOptions);
+
 	/**
 	 * Returns horizontal radius of an object (according to how an object is scaled)
 	 */
 	getRadiusX(): number;
+
 	/**
 	 * Returns vertical radius of an object (according to how an object is scaled)
 	 */
 	getRadiusY(): number;
+
 	/**
 	 * Sets radius of an object (and updates width accordingly)
 	 */
 	setRadius(value: number): number;
+
 	/**
 	 * Returns svg representation of an instance
 	 * @return {Array} an array of strings with the specific svg representation
 	 * of the instance
 	 */
 	_toSVG(): string;
+
 	/**
 	 * List of attribute names to account for when parsing SVG element (used by {@link fabric.Circle.fromElement})
 	 */
 	static ATTRIBUTE_NAMES: string[];
+
 	/**
 	 * Returns Circle instance from an SVG element
 	 * @param element Element to parse
 	 * @param [options] Options object
 	 */
 	static fromElement(element: SVGElement, options: ICircleOptions): Circle;
+
 	/**
 	 * Returns Circle instance from an object representation
 	 * @param object Object to create an instance from
@@ -2352,30 +2458,36 @@ interface IEllipseOptions extends IObjectOptions {
 export interface Ellipse extends Object, IEllipseOptions {}
 export class Ellipse {
 	constructor(options?: IEllipseOptions);
+
 	/**
 	 * Returns horizontal radius of an object (according to how an object is scaled)
 	 */
 	getRx(): number;
+
 	/**
 	 * Returns Vertical radius of an object (according to how an object is scaled)
 	 */
 	getRy(): number;
+
 	/**
 	 * Returns svg representation of an instance
 	 * @return {Array} an array of strings with the specific svg representation
 	 * of the instance
 	 */
 	_toSVG(): string;
+
 	/**
 	 * List of attribute names to account for when parsing SVG element (used by {@link fabric.Ellipse.fromElement})
 	 */
 	static ATTRIBUTE_NAMES: string[];
+
 	/**
 	 * Returns Ellipse instance from an SVG element
 	 * @param element Element to parse
 	 * @param [options] Options object
 	 */
 	static fromElement(element: SVGElement, options?: IEllipseOptions): Ellipse;
+
 	/**
 	 * Returns Ellipse instance from an object representation
 	 * @param object Object to create an instance from
@@ -2409,6 +2521,7 @@ export class Group {
 		options?: IGroupOptions,
 		isAlreadyGrouped?: boolean
 	);
+
 	/**
 	 * Adds an object to a group; Then recalculates group's dimension, position.
 	 * @param [Object] object
@@ -2416,17 +2529,20 @@ export class Group {
 	 * @chainable
 	 */
 	addWithUpdate(object?: Object): Group;
+
 	/**
 	 * Removes an object from a group; Then recalculates group's dimension, position.
 	 * @return thisArg
 	 * @chainable
 	 */
 	removeWithUpdate(object: Object): Group;
+
 	/**
 	 * Renders instance on a given context
 	 * @param ctx context to render instance on
 	 */
 	render(ctx: CanvasRenderingContext2D): void;
+
 	/**
 	 * Decide if the object should cache or not. Create its own cache level
 	 * objectCaching is a global flag, wins over everything
@@ -2436,25 +2552,30 @@ export class Group {
 	 * @return {Boolean}
 	 */
 	shouldCache(): boolean;
+
 	/**
 	 * Check if this object or a child object will cast a shadow
 	 * @return {Boolean}
 	 */
 	willDrawShadow(): boolean;
+
 	/**
 	 * Check if this group or its parent group are caching, recursively up
 	 * @return {Boolean}
 	 */
 	isOnACache(): boolean;
+
 	/**
 	 * Execute the drawing operation for an object on a specified context
 	 * @param {CanvasRenderingContext2D} ctx Context to render on
 	 */
 	drawObject(ctx: CanvasRenderingContext2D): void;
+
 	/**
 	 * Check if cache is dirty
 	 */
 	isCacheDirty(skipCanvas?: boolean): boolean;
+
 	/**
 	 * Realises the transform from this group onto the supplied object
 	 * i.e. it tells you what would happen if the supplied object was in
@@ -2464,12 +2585,14 @@ export class Group {
 	 * @return {fabric.Object} transformedObject
 	 */
 	realizeTransform(object: Object): Object;
+
 	/**
 	 * Destroys a group (restoring state of its objects)
 	 * @return {fabric.Group} thisArg
 	 * @chainable
 	 */
 	destroy(): Group;
+
 	/**
 	 * make a group an active selection, remove the group from canvas
 	 * the group has to be on canvas for this to work.
@@ -2477,30 +2600,35 @@ export class Group {
 	 * @chainable
 	 */
 	toActiveSelection(): ActiveSelection;
+
 	/**
 	 * Destroys a group (restoring state of its objects)
 	 * @return {fabric.Group} thisArg
 	 * @chainable
 	 */
 	ungroupOnCanvas(): Group;
+
 	/**
 	 * Sets coordinates of all group objects
 	 * @return thisArg
 	 * @chainable
 	 */
 	setObjectsCoords(): Group;
+
 	/**
 	 * Returns svg representation of an instance
 	 * @param [reviver] Method for further parsing of svg representation.
 	 * @return svg representation of an instance
 	 */
 	toSVG(reviver?: Function): string;
+
 	/**
 	 * Returns svg clipPath representation of an instance
 	 * @param {Function} [reviver] Method for further parsing of svg representation.
 	 * @return {String} svg representation of an instance
 	 */
 	toClipPathSVG(reviver?: Function): string;
+
 	/**
 	 * Adds an object to a group; Then recalculates group's dimension, position.
 	 * @param {Object} object
@@ -2508,6 +2636,7 @@ export class Group {
 	 * @chainable
 	 */
 	addWithUpdate(object: Object): Group;
+
 	/**
 	 * Retores original state of each of group objects (original state is that which was before group was created).
 	 * @private
@@ -2515,15 +2644,18 @@ export class Group {
 	 * @chainable
 	 */
 	_restoreObjectsState(): Group;
+
 	/**
 	 * @private
 	 */
 	_calcBounds(onlyWidthHeight?: boolean): void;
+
 	/**
 	 * @private
 	 * @param {Boolean} [skipCoordsChange] if true, coordinates of objects enclosed in a group do not change
 	 */
 	_updateObjectsCoords(center?: Point): void;
+
 	/**
 	 * Retores original state of each of group objects (original state is that which was before group was created).
 	 * @private
@@ -2531,10 +2663,12 @@ export class Group {
 	 * @chainable
 	 */
 	_restoreObjectsState(): Group;
+
 	/**
 	 * @private
 	 */
 	_onObjectRemoved(object: Object): void;
+
 	/**
 	 * Returns {@link fabric.Group} instance from an object representation
 	 * @param object Object to create a group from
@@ -2543,9 +2677,9 @@ export class Group {
 	static fromObject(object: any, callback: (group: Group) => any): void;
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////
 // ActiveSelection
-//////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////
 export interface ActiveSelection extends Group, ICollection<Group> {}
 export class ActiveSelection {
 	/**
@@ -2554,6 +2688,7 @@ export class ActiveSelection {
 	 * @param [options] Options object
 	 */
 	constructor(objects?: Object[], options?: IObjectOptions);
+
 	/**
 	 * Constructor
 	 * @param {Object} objects ActiveSelection objects
@@ -2561,12 +2696,14 @@ export class ActiveSelection {
 	 * @return {Object} thisArg
 	 */
 	initialize(objects: ActiveSelection, options?: IObjectOptions): Object;
+
 	/**
 	 * Change te activeSelection to a normal group,
 	 * High level function that automatically adds it to canvas as
 	 * active object. no events fired.
 	 */
 	toGroup(): Group;
+
 	/**
 	 * Returns {@link fabric.ActiveSelection} instance from an object representation
 	 * @memberOf fabric.ActiveSelection
@@ -2629,11 +2766,13 @@ export class Image {
 		element?: string | HTMLImageElement | HTMLVideoElement,
 		options?: IImageOptions
 	);
+
 	/**
 	 * Returns image or video element which this instance is based on
 	 * @return Image or Video element
 	 */
 	getElement(): HTMLImageElement | HTMLVideoElement;
+
 	/**
 	 * Sets image or video element for this instance to a specified one.
 	 * If filters defined they are applied to new image.
@@ -2645,35 +2784,42 @@ export class Image {
 		element: HTMLImageElement | HTMLVideoElement,
 		options?: IImageOptions
 	): Image;
+
 	/**
 	 * Delete a single texture if in webgl mode
 	 */
 	removeTexture(key: any): void;
+
 	/**
 	 * Delete textures, reference to elements and eventually JSDOM cleanup
 	 */
 	dispose(): void;
+
 	/**
 	 * Returns original size of an image
 	 * @return Object with "width" and "height" properties
 	 */
 	getOriginalSize(): { width: number; height: number };
+
 	/**
 	 * Returns true if an image has crop applied, inspecting values of cropX,cropY,width,hight.
 	 * @return {Boolean}
 	 */
 	hasCrop(): boolean;
+
 	/**
 	 * Returns svg representation of an instance
 	 * @return {Array} an array of strings with the specific svg representation
 	 * of the instance
 	 */
 	_toSVG(): string;
+
 	/**
 	 * Returns source of an image
 	 * @return Source of an image
 	 */
 	getSrc(): string;
+
 	/**
 	 * Sets source of an image
 	 * @param {String} src Source string (URL)
@@ -2683,7 +2829,9 @@ export class Image {
 	 * @chainable
 	 */
 	setSrc(src: string, callback?: Function, options?: IImageOptions): Image;
+
 	applyResizeFilters(): void;
+
 	/**
 	 * Applies filters assigned to this image (from "filters" array) or from filter param
 	 * @param {Array} filters to be applied
@@ -2691,6 +2839,7 @@ export class Image {
 	 * @chainable
 	 */
 	applyFilters(filters?: IBaseFilter[]): Image;
+
 	/**
 	 * Calculate offset for center and scale factor for the image in order to respect
 	 * the preserveAspectRatio attribute
@@ -2698,6 +2847,7 @@ export class Image {
 	 * @return {Object}
 	 */
 	parsePreserveAspectRatioAttribute(): any;
+
 	/**
 	 * Creates an instance of fabric.Image from an URL string
 	 * @param url URL to create an image from
@@ -2709,6 +2859,7 @@ export class Image {
 		callback?: (image: Image) => void,
 		imgOptions?: IImageOptions
 	): Image;
+
 	/**
 	 * Returns Image instance from an SVG element
 	 * @param element Element to parse
@@ -2720,11 +2871,14 @@ export class Image {
 		callback: Function,
 		options?: IImageOptions
 	): Image;
+
 	/**
 	 * Default CSS class name for canvas
 	 */
 	static CSS_CANVAS: string;
+
 	static filters: IAllFilters;
+
 	static ATTRIBUTE_NAMES: string[];
 }
 
@@ -2754,12 +2908,14 @@ export class Line {
 	 * @param [options] Options object
 	 */
 	constructor(points?: number[], objObjects?: ILineOptions);
+
 	/**
 	 * Returns svg representation of an instance
 	 * @return {Array} an array of strings with the specific svg representation
 	 * of the instance
 	 */
 	_toSVG(): string;
+
 	/**
 	 * Returns fabric.Line instance from an SVG element
 	 * @static
@@ -2773,12 +2929,15 @@ export class Line {
 		callback?: Function,
 		options?: ILineOptions
 	): Line;
+
 	/**
 	 * Returns fabric.Line instance from an object representation
 	 * @param object Object to create an instance from
 	 */
 	static fromObject(object: any): Line;
+
 	static ATTRIBUTE_NAMES: string[];
+
 	/**
 	 * Produces a function that calculates distance from canvas edge to Line origin.
 	 */
@@ -2791,6 +2950,7 @@ export class Line {
 		},
 		originValues: { nearest: any; center: any; farthest: any }
 	): Function;
+
 	/**
 	 * Recalculates line points given width and height
 	 * @private
@@ -3324,6 +3484,7 @@ export class Object {
 	controls: { [key: string]: Control };
 
 	constructor(options?: IObjectOptions);
+
 	initialize(options?: IObjectOptions): Object;
 
 	/* Sets object's properties from options
@@ -3601,11 +3762,13 @@ export class Object {
 	 * @param [options] Options object
 	 */
 	setOptions(options?: any): void;
+
 	/**
 	 * Sets sourcePath of an object
 	 * @param value Value to set sourcePath to
 	 */
 	setSourcePath(value: string): Object;
+
 	// functions from object svg export mixin
 	// -----------------------------------------------------------------------------------------------------------------------------------
 	/**
@@ -3614,12 +3777,14 @@ export class Object {
 	 * @return {String}
 	 */
 	getSvgStyles(skipShadow?: boolean): string;
+
 	/**
 	 * Returns transform-string for svg-export
 	 * @param {Boolean} use the full transform or the single object one.
 	 * @return {String}
 	 */
 	getSvgTransform(full?: boolean, additionalTransform?: string): string;
+
 	/**
 	 * Returns transform-string for svg-export from the transform matrix of single elements
 	 */
@@ -3633,6 +3798,7 @@ export class Object {
 	 * @return {Boolean} true if instance' state has changed since `{@link fabric.Object#saveState}` was called
 	 */
 	hasStateChanged(propertySet: string): boolean;
+
 	/**
 	 * Saves state of an object
 	 * @param [options] Object with additional `stateProperties` array to include when saving state
@@ -3642,18 +3808,21 @@ export class Object {
 		stateProperties?: any[];
 		propertySet?: string;
 	}): Object;
+
 	/**
 	 * Setups state of an object
 	 * @param {Object} [options] Object with additional `stateProperties` array to include when saving state
 	 * @return {fabric.Object} thisArg
 	 */
 	setupState(options?: any): Object;
+
 	// functions from object straightening mixin
 	// -----------------------------------------------------------------------------------------------------------------------------------
 	/**
 	 * Straightens an object (rotating it from current angle to one of 0, 90, 180, 270, etc. depending on which is closer)
 	 */
 	straighten(): Object;
+
 	/**
 	 * Same as straighten but with animation
 	 */
@@ -3666,19 +3835,23 @@ export class Object {
 	 * @param [intersecting] If `true`, send object in front of next upper intersecting object
 	 */
 	bringForward(intersecting?: boolean): Object;
+
 	/**
 	 * Moves an object to the top of the stack of drawn objects
 	 */
 	bringToFront(): Object;
+
 	/**
 	 * Moves an object down in stack of drawn objects
 	 * @param [intersecting] If `true`, send object behind next lower intersecting object
 	 */
 	sendBackwards(intersecting?: boolean): Object;
+
 	/**
 	 * Moves an object to the bottom of the stack of drawn objects
 	 */
 	sendToBack(): Object;
+
 	/**
 	 * Moves an object to specified level in stack of drawn objects
 	 * @param index New position of object
@@ -3710,6 +3883,7 @@ export class Object {
 		originX: string,
 		originY: string
 	): Point;
+
 	/**
 	 * Returns the real center coordinates of the object
 	 */
@@ -3808,6 +3982,7 @@ export class Object {
 	 * @param controlName The name of the control. Possible values are 'tl', 'tr', 'br', 'bl', 'ml', 'mt', 'mr', 'mb', 'mtr'.
 	 */
 	isControlVisible(controlName: string): boolean;
+
 	/**
 	 * Sets the visibility of the specified control.
 	 * @param controlName The name of the control. Possible values are 'tl', 'tr', 'br', 'bl', 'ml', 'mt', 'mr', 'mb', 'mtr'.
@@ -3844,6 +4019,7 @@ export class Object {
 	 * @chainable
 	 */
 	setCoords(skipCorners?: boolean): Object;
+
 	/**
 	 * Returns coordinates of object's bounding rectangle (left, top, width, height)
 	 * the box is intented as aligned to axis of canvas.
@@ -3855,6 +4031,7 @@ export class Object {
 		absolute?: boolean,
 		calculate?: boolean
 	): { left: number; top: number; width: number; height: number };
+
 	/**
 	 * Checks if object is fully contained within area of another object
 	 * @param {Object} other Object to test
@@ -3867,6 +4044,7 @@ export class Object {
 		absolute?: boolean,
 		calculate?: boolean
 	): boolean;
+
 	/**
 	 * Checks if object is fully contained within area formed by 2 points
 	 * @param pointTL top-left point of area
@@ -3878,6 +4056,7 @@ export class Object {
 		absolute?: boolean,
 		calculate?: boolean
 	): boolean;
+
 	/**
 	 * Checks if point is inside the object
 	 * @param {fabric.Point} point Point to check against
@@ -3892,22 +4071,26 @@ export class Object {
 		absolute?: boolean,
 		calculate?: boolean
 	): boolean;
+
 	/**
 	 * Scales an object (equally by x and y)
 	 * @param value Scale factor
 	 * @return thisArg
 	 */
 	scale(value: number): Object;
+
 	/**
 	 * Scales an object to a given height, with respect to bounding box (scaling by x/y equally)
 	 * @param value New height value
 	 */
 	scaleToHeight(value: number, absolute?: boolean): Object;
+
 	/**
 	 * Scales an object to a given width, with respect to bounding box (scaling by x/y equally)
 	 * @param value New width value
 	 */
 	scaleToWidth(value: number, absolute?: boolean): Object;
+
 	/**
 	 * Checks if object intersects with another object
 	 * @param {Object} other Object to test
@@ -3920,6 +4103,7 @@ export class Object {
 		absolute?: boolean,
 		calculate?: boolean
 	): boolean;
+
 	/**
 	 * Checks if object intersects with an area formed by 2 points
 	 * @param {Object} pointTL top-left point of area
@@ -3947,6 +4131,7 @@ export class Object {
 		value: number | string,
 		options?: IAnimationOptions
 	): Object;
+
 	/**
 	 * Animates object's properties
 	 * object.animate({ left: ..., top: ... }, { duration: ... });
@@ -3957,12 +4142,14 @@ export class Object {
 		properties: { [key: string]: number | string },
 		options?: IAnimationOptions
 	): Object;
+
 	/**
 	 * Calculate and returns the .coords of an object.
 	 * @return {Object} Object with tl, tr, br, bl ....
 	 * @chainable
 	 */
 	calcCoords(absolute?: boolean): any;
+
 	/**
 	 * calculate trasform Matrix that represent current transformation from
 	 * object properties.
@@ -3970,12 +4157,14 @@ export class Object {
 	 * @return {Array} matrix Transform Matrix for the object
 	 */
 	calcTransformMatrix(skipGroup?: boolean): any[];
+
 	/**
 	 * calculate transform matrix that represents the current transformations from the
 	 * object's properties, this matrix does not include the group transformation
 	 * @return {Array} transform matrix for the object
 	 */
 	calcOwnMatrix(): any[];
+
 	/**
 	 * return correct set of coordinates for intersection
 	 */
@@ -3983,28 +4172,33 @@ export class Object {
 		absolute?: boolean,
 		calculate?: boolean
 	): [fabric.Point, fabric.Point, fabric.Point, fabric.Point];
+
 	/**
 	 * Returns height of an object bounding box counting transformations
 	 * before 2.0 it was named getHeight();
 	 * @return {Number} height value
 	 */
 	getScaledHeight(): number;
+
 	/**
 	 * Returns width of an object bounding box counting transformations
 	 * before 2.0 it was named getWidth();
 	 * @return {Number} width value
 	 */
 	getScaledWidth(): number;
+
 	/**
 	 * Returns id attribute for svg output
 	 * @return {String}
 	 */
 	getSvgCommons(): string;
+
 	/**
 	 * Returns filter for svg shadow
 	 * @return {String}
 	 */
 	getSvgFilter(): string;
+
 	/**
 	 * Returns styles-string for svg-export
 	 * @param {Object} style the object from which to retrieve style properties
@@ -4012,12 +4206,14 @@ export class Object {
 	 * @return {String}
 	 */
 	getSvgSpanStyles(style: any, useWhiteSpace?: boolean): string;
+
 	/**
 	 * Returns text-decoration property for svg-export
 	 * @param {Object} style the object from which to retrieve style properties
 	 * @return {String}
 	 */
 	getSvgTextDecoration(style: any): string;
+
 	/**
 	 * Checks if object is contained within the canvas with current viewportTransform
 	 * the check is done stopping at first point that appears on screen
@@ -4025,18 +4221,21 @@ export class Object {
 	 * @return {Boolean} true if object is fully or partially contained within canvas
 	 */
 	isOnScreen(calculate?: boolean): boolean;
+
 	/**
 	 * Checks if object is partially contained within the canvas with current viewportTransform
 	 * @param {Boolean} [calculate] use coordinates of current position instead of .oCoords
 	 * @return {Boolean} true if object is partially contained within canvas
 	 */
 	isPartiallyOnScreen(calculate?: boolean): boolean;
+
 	/**
 	 * This callback function is called every time _discardActiveObject or _setActiveObject
 	 * try to to deselect this object. If the function returns true, the process is cancelled
 	 * @return {Boolean} true to cancel selection
 	 */
 	onDeselect(options: { e?: Event; object?: Object }): boolean;
+
 	/**
 	 * This callback function is called every time _discardActiveObject or _setActiveObject
 	 * try to to deselect this object. If the function returns true, the process is cancelled
@@ -4044,23 +4243,27 @@ export class Object {
 	 * @param {Event} [options.e] event if the process is generated by an event
 	 */
 	onDeselect(options: { e?: Event; object?: fabric.Object }): boolean;
+
 	/**
 	 * This callback function is called every time _discardActiveObject or _setActiveObject
 	 * try to to select this object. If the function returns true, the process is cancelled
 	 */
 	onSelect(options: { e?: Event }): boolean;
+
 	/**
 	 * Returns svg clipPath representation of an instance
 	 * @param {Function} [reviver] Method for further parsing of svg representation.
 	 * @return {String} svg representation of an instance
 	 */
 	toClipPathSVG(reviver?: Function): string;
+
 	/**
 	 * Returns svg representation of an instance
 	 * @param {Function} [reviver] Method for further parsing of svg representation.
 	 * @return {String} svg representation of an instance
 	 */
 	toSVG(reviver?: Function): string;
+
 	/**
 	 * Translates the coordinates from a set of origin to another (based on the object's dimensions)
 	 * @param {fabric.Point} point The point which corresponds to the originX and originY params
@@ -4077,6 +4280,7 @@ export class Object {
 		toOriginX: string,
 		toOriginY: string
 	): Point;
+
 	/*
 	 * Calculate object dimensions from its properties
 	 * @private
@@ -4084,12 +4288,14 @@ export class Object {
 	 * @return {Object} .y height dimension
 	 */
 	_getNonTransformedDimensions(): { x: number; y: number };
+
 	/**
 	 * Returns the top, left coordinates
 	 * @private
 	 * @return {fabric.Point}
 	 */
 	_getLeftTopCoords(): Point;
+
 	/*
 	 * Calculate object bounding box dimensions from its properties scale, skew.
 	 * @private
@@ -4106,16 +4312,19 @@ export class Object {
 	 * @param {CanvasRenderingContext2D} ctx Context to render on
 	 */
 	_renderFill(ctx: CanvasRenderingContext2D): void;
+
 	/**
 	 * @param ctx
 	 * @private
 	 */
 	_renderStroke(ctx: CanvasRenderingContext2D): void;
+
 	/**
 	 * @private
 	 * @param {CanvasRenderingContext2D} ctx Context to render on
 	 */
 	_removeShadow(ctx: CanvasRenderingContext2D): void;
+
 	/**
 	 * @private
 	 * Sets line dash
@@ -4128,6 +4337,7 @@ export class Object {
 		dashArray: number[],
 		alternative?: (ctx: CanvasRenderingContext2D) => void
 	): void;
+
 	/**
 	 * @private
 	 * @param {CanvasRenderingContext2D} ctx Context to render on
@@ -4139,16 +4349,19 @@ export class Object {
 		ctx: CanvasRenderingContext2D,
 		filler: string | Pattern | Gradient
 	): void;
+
 	/**
 	 * @private
 	 * @param {CanvasRenderingContext2D} ctx Context to render on
 	 */
 	_render(ctx: CanvasRenderingContext2D): void;
+
 	/**
 	 * @private
 	 * @param {CanvasRenderingContext2D} ctx Context to render on
 	 */
 	_renderPaintInOrder(ctx: CanvasRenderingContext2D): void;
+
 	/**
 	 * Returns the instance of the control visibility set for this object.
 	 * @private
@@ -4165,6 +4378,7 @@ export class Object {
 		mb: boolean;
 		mtr: boolean;
 	};
+
 	/**
 	 * Determines which corner has been clicked
 	 * @private
@@ -4175,12 +4389,14 @@ export class Object {
 		x: number;
 		y: number;
 	}): boolean | "bl" | "br" | "mb" | "ml" | "mr" | "mt" | "tl" | "tr" | "mtr";
+
 	/**
 	 * @private
 	 * @param {String} key
 	 * @param {*} value
 	 */
 	_set(key: string, value: any): Object;
+
 	/**
 	 * Creates fabric Object instance
 	 * @param {string} Class name
@@ -4196,6 +4412,7 @@ export class Object {
 		callback?: Function,
 		extraParam?: any
 	): Object;
+
 	/**
 	 * Defines the number of fraction digits to use when serializing object values.
 	 */
@@ -4225,12 +4442,14 @@ export class Path {
 	 * @return {String} svg representation of an instance
 	 */
 	toClipPathSVG(reviver?: Function): string;
+
 	/**
 	 * Returns svg representation of an instance
 	 * @param [reviver] Method for further parsing of svg representation.
 	 * @return svg representation of an instance
 	 */
 	toSVG(reviver?: Function): string;
+
 	/**
 	 * Creates an instance of fabric.Path from an SVG <path> element
 	 * @param element to parse
@@ -4242,11 +4461,13 @@ export class Path {
 		callback: Function,
 		options?: IPathOptions
 	): Path;
+
 	/**
 	 * Creates an instance of fabric.Path from an object
 	 * @param callback Callback to invoke when an fabric.Path instance is created
 	 */
 	static fromObject(object: any, callback: Function): Path;
+
 	/**
 	 * List of attribute names to account for when parsing SVG element (used by `fabric.Polygon.fromElement`)
 	 */
@@ -4263,6 +4484,7 @@ export class Polygon extends Polyline {
 		points: Array<{ x: number; y: number }>,
 		options?: IPolylineOptions
 	);
+
 	/**
 	 * Returns Polygon instance from an SVG element
 	 * @param element Element to parse
@@ -4272,6 +4494,7 @@ export class Polygon extends Polyline {
 		element: SVGElement,
 		options?: IPolylineOptions
 	): Polygon;
+
 	/**
 	 * Returns fabric.Polygon instance from an object representation
 	 * @param object Object to create an instance from
@@ -4315,10 +4538,12 @@ export class Polyline extends Object {
 		width: number;
 		height: number;
 	};
+
 	/**
 	 * List of attribute names to account for when parsing SVG element (used by `fabric.Polygon.fromElement`)
 	 */
 	static ATTRIBUTE_NAMES: string[];
+
 	/**
 	 * Returns Polyline  instance from an SVG element
 	 * @param element Element to parse
@@ -4328,6 +4553,7 @@ export class Polyline extends Object {
 		element: SVGElement,
 		options?: IPolylineOptions
 	): Polyline;
+
 	/**
 	 * Returns fabric.Polyline instance from an object representation
 	 * @param object Object to create an instance from
@@ -4354,16 +4580,19 @@ export class Rect extends Object {
 	 * @param [options] Options object
 	 */
 	constructor(options?: IRectOptions);
+
 	/**
 	 * List of attribute names to account for when parsing SVG element (used by `fabric.Rect.fromElement`)
 	 */
 	static ATTRIBUTE_NAMES: string[];
+
 	/**
 	 * Returns Rect instance from an SVG element
 	 * @param element Element to parse
 	 * @param [options] Options object
 	 */
 	static fromElement(element: SVGElement, options?: IRectOptions): Rect;
+
 	/**
 	 * Returns Rect instance from an object representation
 	 * @param object Object to create an instance from
@@ -4479,30 +4708,36 @@ interface TextOptions extends IObjectOptions {
 export interface Text extends TextOptions {}
 export class Text extends Object {
 	_text: string[];
+
 	cursorOffsetCache: { top: number; left: number };
+
 	/**
 	 * Properties which when set cause object to change dimensions
 	 * @type Object
 	 * @private
 	 */
 	_dimensionAffectingProps: string[];
+
 	/**
 	 * List of lines in text object
 	 * @type Array<string>
 	 */
 	textLines: string[];
+
 	/**
 	 * List of grapheme lines in text object
 	 * @private
 	 * @type Array<string>
 	 */
 	_textLines: string[][];
+
 	/**
 	 * List of unwrapped grapheme lines in text object
 	 * @private
 	 * @type Array<string>
 	 */
 	_unwrappedTextLines: string[][];
+
 	/**
 	 * Use this regular expression to filter for whitespaces that is not a new line.
 	 * Mostly used when text is 'justify' aligned.
@@ -4510,6 +4745,7 @@ export class Text extends Object {
 	 * @type RegExp
 	 */
 	_reSpacesAndTabs: RegExp;
+
 	/**
 	 * Use this regular expression to filter for whitespace that is not a new line.
 	 * Mostly used when text is 'justify' aligned.
@@ -4517,18 +4753,21 @@ export class Text extends Object {
 	 * @type RegExp
 	 */
 	_reSpaceAndTab: RegExp;
+
 	/**
 	 * List of line widths
 	 * @private
 	 * @type Array<Number>
 	 */
 	__lineWidths: number[];
+
 	/**
 	 * List of line heights
 	 * @private
 	 * @type Array<Number>
 	 */
 	__lineHeights: number[];
+
 	/**
 	 * Contains characters bounding boxes for each line and char
 	 * @private
@@ -4543,22 +4782,26 @@ export class Text extends Object {
 			deltaY?: number;
 		}>
 	>;
+
 	/**
 	 * Text Line proportion to font Size (in pixels)
 	 * @private
 	 * @type Number
 	 */
 	_fontSizeMult: number;
+
 	/**
 	 * @private
 	 * @type Number
 	 */
 	_fontSizeFraction: number;
+
 	/**
 	 * @private
 	 * @type boolean
 	 */
 	__skipDimension: boolean;
+
 	/**
 	 * use this size when measuring text. To avoid IE11 rounding errors
 	 * @type {Number}
@@ -5086,50 +5329,60 @@ interface ITextOptions extends TextOptions {
 export interface IText extends ITextOptions {}
 export class IText extends Text {
 	fromPaste: boolean;
+
 	/**
 	 * @private
 	 */
 	_currentCursorOpacity: number;
+
 	/**
 	 * @private
 	 */
 	_reSpace: RegExp;
+
 	/**
 	 * Constructor
 	 * @param text Text string
 	 * @param [options] Options object
 	 */
 	constructor(text: string, options?: ITextOptions);
+
 	/**
 	 * Sets selection start (left boundary of a selection)
 	 * @param {Number} index Index to set selection start to
 	 */
 	setSelectionStart(index: number): void;
+
 	/**
 	 * Sets selection end (right boundary of a selection)
 	 * @param {Number} index Index to set selection end to
 	 */
 	setSelectionEnd(index: number): void;
+
 	/**
 	 * Prepare and clean the contextTop
 	 */
 	clearContextTop(skipRestore?: boolean): void;
+
 	/**
 	 * Renders cursor or selection (depending on what exists)
 	 */
 	renderCursorOrSelection(): void;
+
 	/**
 	 * Renders cursor
 	 * @param {Object} boundaries
 	 * @param {CanvasRenderingContext2D} ctx transformed context to draw on
 	 */
 	renderCursor(boundaries: any, ctx: CanvasRenderingContext2D): void;
+
 	/**
 	 * Renders text selection
 	 * @param {Object} boundaries Object with left/top/leftOffset/topOffset
 	 * @param {CanvasRenderingContext2D} ctx transformed context to draw on
 	 */
 	renderSelection(boundaries: any, ctx: CanvasRenderingContext2D): void;
+
 	/**
 	 * High level function to know the height of the cursor.
 	 * the currentChar is the one that precedes the cursor
@@ -5137,6 +5390,7 @@ export class IText extends Text {
 	 * @return {Number} Character font size
 	 */
 	getCurrentCharFontSize(): number;
+
 	/**
 	 * High level function to know the color of the cursor.
 	 * the currentChar is the one that precedes the cursor
@@ -5144,6 +5398,7 @@ export class IText extends Text {
 	 * @return {String} Character color (fill)
 	 */
 	getCurrentCharColor(): string;
+
 	/**
 	 * Returns fabric.IText instance from an object representation
 	 * @static
@@ -5152,57 +5407,68 @@ export class IText extends Text {
 	 * @param {function} [callback] invoked with new instance as argument
 	 */
 	static fromObject(object: any, callback?: Function): IText;
+
 	/**
 	 * Initializes all the interactive behavior of IText
 	 */
 	initBehavior(): void;
+
 	/**
 	 * Initializes "added" event handler
 	 */
 	initAddedHandler(): void;
+
 	/**
 	 * Initializes delayed cursor
 	 */
 	initDelayedCursor(): void;
+
 	/**
 	 * Aborts cursor animation and clears all timeouts
 	 */
 	abortCursorAnimation(): void;
+
 	/**
 	 * Selects entire text
 	 * @return {fabric.IText} thisArg
 	 * @chainable
 	 */
 	selectAll(): IText;
+
 	/**
 	 * Returns selected text
 	 * @return {String}
 	 */
 	getSelectedText(): string;
+
 	/**
 	 * Find new selection index representing start of current word according to current selection index
 	 * @param {Number} startFrom Surrent selection index
 	 * @return {Number} New selection index
 	 */
 	findWordBoundaryLeft(startFrom: number): number;
+
 	/**
 	 * Find new selection index representing end of current word according to current selection index
 	 * @param {Number} startFrom Current selection index
 	 * @return {Number} New selection index
 	 */
 	findWordBoundaryRight(startFrom: number): number;
+
 	/**
 	 * Find new selection index representing start of current line according to current selection index
 	 * @param {Number} startFrom Current selection index
 	 * @return {Number} New selection index
 	 */
 	findLineBoundaryLeft(startFrom: number): number;
+
 	/**
 	 * Find new selection index representing end of current line according to current selection index
 	 * @param {Number} startFrom Current selection index
 	 * @return {Number} New selection index
 	 */
 	findLineBoundaryRight(startFrom: number): number;
+
 	/**
 	 * Finds index corresponding to beginning or end of a word
 	 * @param {Number} selectionStart Index of a character
@@ -5210,11 +5476,13 @@ export class IText extends Text {
 	 * @return {Number} Index of the beginning or end of a word
 	 */
 	searchWordBoundary(selectionStart: number, direction: number): number;
+
 	/**
 	 * Selects a word based on the index
 	 * @param {Number} selectionStart Index of a character
 	 */
 	selectWord(selectionStart: number): void;
+
 	/**
 	 * Selects a line based on the index
 	 * @param {Number} selectionStart Index of a character
@@ -5222,34 +5490,40 @@ export class IText extends Text {
 	 * @chainable
 	 */
 	selectLine(selectionStart: number): IText;
+
 	/**
 	 * Enters editing state
 	 * @return {fabric.IText} thisArg
 	 * @chainable
 	 */
 	enterEditing(e?: MouseEvent): IText;
+
 	/**
 	 * Initializes "mousemove" event handler
 	 */
 	initMouseMoveHandler(): void;
+
 	/**
 	 * Exits from editing state
 	 * @return {fabric.IText} thisArg
 	 * @chainable
 	 */
 	exitEditing(): IText;
+
 	/**
 	 * remove and reflow a style block from start to end.
 	 * @param {Number} start linear start position for removal (included in removal)
 	 * @param {Number} end linear end position for removal ( excluded from removal )
 	 */
 	removeStyleFromTo(start: number, end: number): void;
+
 	/**
 	 * Shifts line styles up or down
 	 * @param {Number} lineIndex Index of a line
 	 * @param {Number} offset Can any number?
 	 */
 	shiftLineStyles(lineIndex: number, offset: number): void;
+
 	/**
 	 * Inserts new style object
 	 * @param {Number} lineIndex Index of a line
@@ -5263,6 +5537,7 @@ export class IText extends Text {
 		qty: number,
 		copiedStyle: any[]
 	): void;
+
 	/**
 	 * Inserts style object for a given line/char index
 	 * @param {Number} lineIndex Index of a line
@@ -5276,6 +5551,7 @@ export class IText extends Text {
 		quantity: number,
 		copiedStyle: any[]
 	): void;
+
 	/**
 	 * Inserts style object(s)
 	 * @param {Array} insertedText Characters at the location where style is inserted
@@ -5287,6 +5563,7 @@ export class IText extends Text {
 		start: number,
 		copiedStyle?: any[]
 	): void;
+
 	/**
 	 * Set the selectionStart and selectionEnd according to the ne postion of cursor
 	 * mimic the key - mouse navigation when shift is pressed.
@@ -5296,10 +5573,12 @@ export class IText extends Text {
 		end: number,
 		newSelection: number
 	): void;
+
 	/**
 	 * Copies selected text
 	 */
 	copy(): void;
+
 	/**
 	 * convert from fabric to textarea values
 	 */
@@ -5308,6 +5587,7 @@ export class IText extends Text {
 		end: number,
 		_text: string
 	): { selectionStart: number; selectionEnd: number };
+
 	/**
 	 * convert from textarea to grapheme indexes
 	 */
@@ -5316,6 +5596,7 @@ export class IText extends Text {
 		end: number,
 		text: string
 	): { selectionStart: number; selectionEnd: number };
+
 	/**
 	 * Gets start offset of a selection
 	 * @param {Event} e Event object
@@ -5323,42 +5604,51 @@ export class IText extends Text {
 	 * @return {Number}
 	 */
 	getDownCursorOffset(e: Event, isRight?: boolean): number;
+
 	/**
 	 * Returns index of a character corresponding to where an object was clicked
 	 * @param {Event} e Event object
 	 * @return {Number} Index of a character
 	 */
 	getSelectionStartFromPointer(e: Event): number;
+
 	/**
 	 * @param {Event} e Event object
 	 * @param {Boolean} isRight
 	 * @return {Number}
 	 */
 	getUpCursorOffset(e: Event, isRight?: boolean): number;
+
 	/**
 	 * Initializes double and triple click event handlers
 	 */
 	initClicks(): void;
+
 	/**
 	 * Initializes event handlers related to cursor or selection
 	 */
 	initCursorSelectionHandlers(): void;
+
 	/**
 	 * Initializes "dbclick" event handler
 	 */
 	initDoubleClickSimulation(): void;
+
 	/**
 	 * Initializes hidden textarea (needed to bring up keyboard in iOS)
 	 */
 	initHiddenTextarea(): void;
+
 	/**
 	 * Initializes "mousedown" event handler
 	 */
 	initMousedownHandler(): void;
+
 	/**
 	 * Initializes "mouseup" event handler
 	 */
 	initMouseupHandler(): void;
+
 	/**
 	 * insert characters at start position, before start position.
 	 * start  equal 1 it means the text get inserted between actual grapheme 0 and 1
@@ -5372,74 +5662,89 @@ export class IText extends Text {
 	 * @param {Number} end default to start + 1
 	 */
 	insertChars(text: string, style: any[], start: number, end: number): void;
+
 	/**
 	 * Moves cursor down
 	 * @param {Event} e Event object
 	 */
 	moveCursorDown(e: Event): void;
+
 	/**
 	 * Moves cursor left
 	 * @param {Event} e Event object
 	 */
 	moveCursorLeft(e: Event): void;
+
 	/**
 	 * Moves cursor left without keeping selection
 	 * @param {Event} e
 	 */
 	moveCursorLeftWithoutShift(e: Event): void;
+
 	/**
 	 * Moves cursor left while keeping selection
 	 * @param {Event} e
 	 */
 	moveCursorLeftWithShift(e: Event): void;
+
 	/**
 	 * Moves cursor right
 	 * @param {Event} e Event object
 	 */
 	moveCursorRight(e: Event): void;
+
 	/**
 	 * Moves cursor right without keeping selection
 	 * @param {Event} e Event object
 	 */
 	moveCursorRightWithoutShift(e: Event): void;
+
 	/**
 	 * Moves cursor right while keeping selection
 	 * @param {Event} e
 	 */
 	moveCursorRightWithShift(e: Event): void;
+
 	/**
 	 * Moves cursor up
 	 * @param {Event} e Event object
 	 */
 	moveCursorUp(e: Event): void;
+
 	/**
 	 * Moves cursor up without shift
 	 * @param {Number} offset
 	 */
 	moveCursorWithoutShift(offset: number): void;
+
 	/**
 	 * Moves cursor with shift
 	 * @param {Number} offset
 	 */
 	moveCursorWithShift(offset: number): void;
+
 	/**
 	 * Composition end
 	 */
 	onCompositionEnd(): void;
+
 	/**
 	 * Composition start
 	 */
 	onCompositionStart(): void;
+
 	/**
 	 * Handles onInput event
 	 * @param {Event} e Event object
 	 */
 	onInput(e: Event): void;
+
 	/**
 	 * Handles keyup event
 	 * @param {Event} e Event object
 	 */
 	onKeyDown(e: Event): void;
+
 	/**
 	 * Handles keyup event
 	 * We handle KeyUp because ie11 and edge have difficulties copy/pasting
@@ -5447,10 +5752,12 @@ export class IText extends Text {
 	 * @param {Event} e Event object
 	 */
 	onKeyUp(e: Event): void;
+
 	/**
 	 * Pastes text
 	 */
 	paste(): void;
+
 	/**
 	 * Removes characters from start/end
 	 * start/end ar per grapheme position in _text array.
@@ -5459,11 +5766,13 @@ export class IText extends Text {
 	 * @param {Number} end default to start + 1
 	 */
 	removeChars(start: number, end: number): void;
+
 	/**
 	 * Changes cursor location in a text depending on passed pointer (x/y) object
 	 * @param {Event} e Event object
 	 */
 	setCursorByClick(e: Event): void;
+
 	/**
 	 * @private
 	 */
@@ -5474,19 +5783,23 @@ export class IText extends Text {
 		index: number,
 		jlen: number
 	): number;
+
 	/**
 	 * @private
 	 * @param {CanvasRenderingContext2D} ctx Context to render on
 	 */
 	_render(ctx: CanvasRenderingContext2D): void;
+
 	/**
 	 * @private
 	 */
 	_updateTextarea(): void;
+
 	/**
 	 * @private
 	 */
 	updateFromTextArea(): void;
+
 	/**
 	 * Default event handler for the basic functionalities needed on _mouseDown
 	 * can be overridden to do something different.
@@ -5496,6 +5809,7 @@ export class IText extends Text {
 	 * @param {Object} Options (seems to have an event `e` parameter
 	 */
 	_mouseDownHandler(options: any): void;
+
 	/**
 	 * @private
 	 * @return {Object} style contains style for hiddenTextarea
@@ -5550,18 +5864,21 @@ export class Textbox extends IText {
 	 * @param [options] Options object
 	 */
 	constructor(text: string, options?: ITextboxOptions);
+
 	/**
 	 * Returns true if object has a style property or has it ina specified line
 	 * @param {Number} lineIndex
 	 * @return {Boolean}
 	 */
 	styleHas(property: string, lineIndex: number): boolean;
+
 	/**
 	 * Returns true if object has no styling or no styling in a line
 	 * @param {Number} lineIndex , lineIndex is on wrapped lines.
 	 * @return {Boolean}
 	 */
 	isEmptyStyles(lineIndex: number): boolean;
+
 	/**
 	 * Detect if the text line is ended with an hard break
 	 * text and itext do not have wrapping, return false
@@ -5569,17 +5886,20 @@ export class Textbox extends IText {
 	 * @return {Boolean}
 	 */
 	isEndOfWrapping(lineIndex: number): boolean;
+
 	/**
 	 * Returns larger of min width and dynamic min width
 	 * @return {Number}
 	 */
 	getMinWidth(): number;
+
 	/**
 	 * Use this regular expression to split strings in breakable lines
 	 * @private
 	 * @type RegExp
 	 */
 	_wordJoiners: RegExp;
+
 	/**
 	 * Helper function to measure a string of text, given its lineIndex and charIndex offset
 	 * it gets called when charBounds are not available yet.
@@ -5590,6 +5910,7 @@ export class Textbox extends IText {
 	 * @returns {number}
 	 */
 	_measureWord(word: string[], lineIndex: number, charOffset: number): number;
+
 	/**
 	 * Wraps text using the 'width' property of Textbox. First this function
 	 * splits text on newlines, so we preserve newlines entered by the user.
@@ -5600,6 +5921,7 @@ export class Textbox extends IText {
 	 * @returns {Array} Array of grapheme lines
 	 */
 	_wrapText(lines: string[], desiredWidth: number): string[][];
+
 	/**
 	 * Style objects for each line
 	 * Generate an object that translates the style object so that it is
@@ -5610,6 +5932,7 @@ export class Textbox extends IText {
 	 * @type {Array} Line style { line: number, offset: number }
 	 */
 	_styleMap?: { [s: number]: { line: number; offset: number } };
+
 	/**
 	 * Returns fabric.Textbox instance from an object representation
 	 * @static
@@ -5626,12 +5949,14 @@ export class Triangle extends Object {
 	 * @param [options] Options object
 	 */
 	constructor(options?: ITriangleOptions);
+
 	/**
 	 * Returns SVG representation of an instance
 	 * @param [reviver] Method for further parsing of svg representation.
 	 * @return svg representation of an instance
 	 */
 	toSVG(reviver?: Function): string;
+
 	/**
 	 * Returns Triangle instance from an object representation
 	 * @param object Object to create an instance from
@@ -5639,9 +5964,9 @@ export class Triangle extends Object {
 	static fromObject(object: any): Triangle;
 }
 
-////////////////////////////////////////////////////////////
+/// /////////////////////////////////////////////////////////
 // Filters
-////////////////////////////////////////////////////////////
+/// /////////////////////////////////////////////////////////
 interface IAllFilters {
 	BaseFilter: {
 		/**
@@ -6062,9 +6387,9 @@ interface ITintFilter extends IBaseFilter {
 	applyTo(canvasEl: HTMLCanvasElement): void;
 }
 
-////////////////////////////////////////////////////////////
+/// /////////////////////////////////////////////////////////
 // Brushes
-////////////////////////////////////////////////////////////
+/// /////////////////////////////////////////////////////////
 export class BaseBrush {
 	/**
 	 * Color of a brush
@@ -6082,6 +6407,7 @@ export class BaseBrush {
 	 * "shadowOffsetY" (Number) and "shadowBlur" (Number) since v1.2.12
 	 */
 	shadow: Shadow | string;
+
 	/**
 	 * Line endings style of a brush (one of "butt", "round", "square")
 	 */
@@ -6103,6 +6429,7 @@ export class CircleBrush extends BaseBrush {
 	 * Width of a brush
 	 */
 	width: number;
+
 	/**
 	 * Invoked inside on mouse down and mouse move
 	 */
@@ -6119,6 +6446,7 @@ export class SprayBrush extends BaseBrush {
 	 * Width of a brush
 	 */
 	width: number;
+
 	/**
 	 * Density of a spray (number of dots per chunk)
 	 */
@@ -6128,6 +6456,7 @@ export class SprayBrush extends BaseBrush {
 	 * Width of spray dots
 	 */
 	dotWidth: number;
+
 	/**
 	 * Width variance of spray dots
 	 */
@@ -6137,6 +6466,7 @@ export class SprayBrush extends BaseBrush {
 	 * Whether opacity of a dot should be random
 	 */
 	randomOpacity: boolean;
+
 	/**
 	 * Whether overlapping dots (rectangles) should be removed (for performance reasons)
 	 */
@@ -6153,6 +6483,7 @@ export class PatternBrush extends PencilBrush {
 	 * Creates "pattern" instance property
 	 */
 	getPattern(): any;
+
 	/**
 	 * Creates path
 	 */
@@ -6176,9 +6507,9 @@ export class PencilBrush extends BaseBrush {
 	createPath(pathData: string): Path;
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////
 // Fabric util Interface
-//////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////
 interface IUtilAnimationOptions {
 	/**
 	 * Starting value
