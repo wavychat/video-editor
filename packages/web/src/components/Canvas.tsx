@@ -213,11 +213,13 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 				const options: Partial<fabric.Object> = {
 					id,
 					dirty: true,
+					selectable: true,
 					hasControls: !isMobile,
 					originX: "center",
 					originY: "center",
 				};
 
+				// apply new options on object
 				for (const tempOptionId in options)
 					if ({}.hasOwnProperty.call(options, tempOptionId)) {
 						const optionId = tempOptionId as keyof fabric.Object;
@@ -227,6 +229,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 						);
 					}
 
+				// replace drawing after it was moved when origin was changed
 				if (object.type === "PSStroke" || object.type === "path") {
 					object.left = ((object.width! / 2) + object.left!) + object.strokeWidth! / 2;
 					object.top = ((object.height! / 2) + object.top!) + object.strokeWidth! / 2;
