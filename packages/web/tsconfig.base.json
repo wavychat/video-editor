@@ -21,7 +21,8 @@
         "jsx": "react-jsx",
         "types": [
             "node",
-            "dom-mediacapture-record"
+            "dom-mediacapture-record",
+            "./src/global.d.ts"
         ],
         "typeRoots": [
             "./src/types",

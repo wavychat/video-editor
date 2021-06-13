@@ -65,7 +65,6 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			<button
 				onClick={() => {
 					console.log("recording");
-					// @ts-expect-error
 					const stream = canvasRef.current!.getCanvas()!.captureStream(variables.FPS);
 
 					console.log(stream);
