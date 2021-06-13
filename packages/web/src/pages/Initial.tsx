@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { fabric } from "fabric";
 import { IEditCanvasRef } from "../components/Canvas";
@@ -61,6 +61,55 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			>
 				Draw
 			</button>
+
+			<button
+				onClick={() => {
+					console.log("recording");
+					// @ts-expect-error
+					const stream = canvasRef.current!.getCanvas()!.captureStream(variables.FPS);
+
+					console.log(stream);
+					// TODO: Add to recoil states isExporting and prevent looping, etc.. from happening
+
+					const chunks: Blob[] = [];
+					const recorder = new MediaRecorder(stream!);
+
+					console.log("1", recorder);
+					canvasRef.current!.getFabric()!.selection = false;
+
+					recorder.onstart = () => {
+						console.log("timeout started");
+						setTimeout(() => {
+							recorder.stop();
+						}, 10 * 1000);
+					};
+
+					console.log("2");
+					recorder.ondataavailable = (e) => {
+						if (e.data.size > 0)
+							chunks.push(e.data);
+					};
+
+					console.log("3");
+					recorder.onstop = () => {
+						const videoUrl = URL.createObjectURL(new Blob(chunks, { type: "video/mp4" }));
+						console.log(
+							"New video:", videoUrl,
+						);
+
+						window.open(videoUrl, "_blank");
+					};
+
+					console.log("4");
+					recorder.start();
+					console.log("5");
+				}}
+				type="submit"
+			>
+				Export
+
+			</button>
+
 			<button onClick={createText} type="button">Text</button>
 			<button onClick={canvasRef.current?.clear} type="button">Clear All</button>
 			<button onClick={canvasRef.current?.undo} type="button">Undo</button>
@@ -74,6 +123,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			>
 				To JSON
 			</button>
+
 			<input type="file" accept="image/*" onChange={addImage} multiple />
 			{variables.playVideo && !variables.pinnedFrame ? (
 				<button
