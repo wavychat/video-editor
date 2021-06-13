@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { fabric } from "fabric";
 import { IEditCanvasRef } from "../components/Canvas";

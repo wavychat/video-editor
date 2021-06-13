@@ -175,7 +175,9 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 			/** Modify script, add id and other properties to the canvas */
 			canvas.on("object:added", (opt) => {
 				const id = uuidv4();
+				const key = opt.target ? "target" : "path";
 
+				// add object to script
 				setScript((script) => {
 					let { pinnedFrame } = variablesRef.current!;
 					const scriptClone = { ...script };
@@ -208,16 +210,24 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 					id,
 					dirty: true,
 					hasControls: !isMobile,
+					originX: "center",
+					originY: "center",
 				};
 
 				for (const tempOptionId in options)
 					if ({}.hasOwnProperty.call(options, tempOptionId)) {
 						const optionId = tempOptionId as keyof fabric.Object;
-						opt[opt.target ? "target" : "path"]?.set(
+						opt[key]?.set(
 							optionId,
 							options[optionId],
 						);
 					}
+
+				if (opt[key]?.type === "PSStroke" || opt[key]?.type === "path") {
+					const line = opt[key]!;
+					line.left = ((line.width! / 2) + line.left!) - (line.strokeWidth! / 2);
+					line.top = ((line.height! / 2) + line.top!) - (line.strokeWidth! / 2);
+				}
 			});
 
 			return () => {
