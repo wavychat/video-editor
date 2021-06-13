@@ -22,7 +22,7 @@
         "types": [
             "node",
             "dom-mediacapture-record",
-            "./src/global.d.ts"
+            "./src/types/global"
         ],
         "typeRoots": [
             "./src/types",
