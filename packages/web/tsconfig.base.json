@@ -19,6 +19,10 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx",
+        "types": [
+            "node",
+            "dom-mediacapture-record"
+        ],
         "typeRoots": [
             "./src/types",
             "./node_modules/@types"
