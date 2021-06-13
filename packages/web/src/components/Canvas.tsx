@@ -225,8 +225,8 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 				if (opt[key]?.type === "PSStroke" || opt[key]?.type === "path") {
 					const line = opt[key]!;
-					line.left = ((line.width! / 2) + line.left!) - (line.strokeWidth! / 2);
-					line.top = ((line.height! / 2) + line.top!) - (line.strokeWidth! / 2);
+					line.left = ((line.width! / 2) + line.left!) + line.strokeWidth! / 2;
+					line.top = ((line.height! / 2) + line.top!) + line.strokeWidth! / 2;
 				}
 			});
 
