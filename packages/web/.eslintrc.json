@@ -19,22 +19,8 @@
                     "map": [
                         [
                             "@video-editor/web",
-                            "."
-                        ],
-                        [
-                            "@video-editor/common",
-                            "../common"
-                        ],
-                        [
-                            "@video-editor/native",
-                            "../native"
+                            "../web"
                         ]
-                    ],
-                    "extensions": [
-                        ".ts",
-                        ".js",
-                        ".jsx",
-                        ".json"
                     ]
                 }
             }
@@ -60,6 +46,7 @@
     "rules": {
         "import/prefer-default-export": 0,
         "import/extensions": 0,
+        "import/export": 0,
         "react/jsx-filename-extension": [
             1,
             {
@@ -82,6 +69,9 @@
         "no-unused-vars": 1,
         "no-console": 1,
         "no-continue": 0,
+        "no-param-reassign": 0,
+        "max-classes-per-file": 0,
+        "max-len": 0,
         "implicit-arrow-linebreak": [
             "error",
             "below"
@@ -114,7 +104,8 @@
                     "**/*.test.tsx",
                     "**/*.spec.tsx",
                     "**/*.spec.tsx"
-                ]
+                ],
+                "bundledDependencies": true
             }
         ],
         "curly": [
