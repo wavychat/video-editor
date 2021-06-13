@@ -64,8 +64,14 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 
 			<button
 				onClick={() => {
+					const canvas = canvasRef.current?.getCanvas();
+					const fabricCanvas = canvasRef.current?.getFabric();
+
+					if (!canvas || !fabricCanvas)
+						return;
+
 					console.log("recording");
-					const stream = canvasRef.current!.getCanvas()!.captureStream(variables.FPS);
+					const stream = canvas.captureStream(variables.FPS);
 
 					console.log(stream);
 					// TODO: Add to recoil states isExporting and prevent looping, etc.. from happening
