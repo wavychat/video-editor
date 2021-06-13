@@ -74,7 +74,10 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 					const recorder = new MediaRecorder(stream!);
 
 					console.log("1", recorder);
-					canvasRef.current!.getFabric()!.selection = false;
+					fabricCanvas.selection = false;
+					fabricCanvas.forEachObject((o) => {
+						o.selectable = false;
+					});
 
 					recorder.onstart = () => {
 						console.log("timeout started");
