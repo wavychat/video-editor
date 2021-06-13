@@ -2970,17 +2970,17 @@ interface IObjectOptions {
 	 * Note that this property is meant to be read-only and not meant to be modified.
 	 * If you modify, certain parts of Fabric (such as JSON loading) won't work correctly.
 	 */
-	type?: string;
+	type?: "image" | "path" | "PSStroke";
 
 	/**
 	 * Horizontal origin of transformation of an object (one of "left", "right", "center")
 	 */
-	originX?: string;
+	originX?: "left" | "right" | "center";
 
 	/**
 	 * Vertical origin of transformation of an object (one of "top", "bottom", "center")
 	 */
-	originY?: string;
+	originY?: "top" | "bottom" | "center";
 
 	/**
 	 * Top position of an object. Note that by default it's relative to object center. You can change this by setting originY={top/center/bottom}
