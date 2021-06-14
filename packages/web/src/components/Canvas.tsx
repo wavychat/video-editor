@@ -41,11 +41,11 @@ export interface IEditCanvasRef {
 const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 	({ onTextDoubleClick, videoRef }, ref) => {
 		const lineOptions = useRecoilValue(lineOptionsState);
-		const [script, setScript] = useRecoilState(scriptState);
 		const [variables, setVariables] = useRecoilState(variablesState);
+		const [script, setScript] = useRecoilState(scriptState);
 
-		const variablesRef = useRef<IVariables>();
-		const scriptRef = useRef<IScripting>({});
+		const variablesRef = useRef<IVariables>(variables);
+		const scriptRef = useRef<IScripting>(script);
 
 		const canvasRef = useRef<HTMLCanvasElement>(null);
 		const fabricCanvasRef = useRef<fabric.Canvas>();
@@ -174,15 +174,20 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 			/** Modify script, add id and other properties to the canvas */
 			canvas.on("object:added", (opt) => {
-				const id = uuidv4();
 				const object = opt[opt.target ? "target" : "path"];
 
 				if (!object)
 					return;
 
+				// if video is currently being exported don't allow new elements
+				if (variablesRef.current.isExporting)
+					return canvas.remove(object);
+
+				const id = uuidv4();
+
 				// add object to script
 				setScript((script) => {
-					let { pinnedFrame } = variablesRef.current!;
+					let { pinnedFrame } = variablesRef.current;
 					const scriptClone = { ...script };
 					const hasPinnedFrame: boolean = !!pinnedFrame;
 
@@ -209,11 +214,9 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 					return scriptClone;
 				});
 
-				// TODO: set selectable to false if exporting state is true
 				const options: Partial<fabric.Object> = {
 					id,
 					dirty: true,
-					selectable: true,
 					hasControls: !isMobile,
 					originX: "center",
 					originY: "center",
@@ -248,7 +251,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 			const animate = () => {
 				const script = scriptRef.current;
-				const { pinnedFrame, playVideo, FPS } = variablesRef.current!;
+				const { pinnedFrame, playVideo, FPS } = variablesRef.current;
 
 				if (!playVideo || pinnedFrame)
 					return requestAnimFrame();
