@@ -277,6 +277,9 @@ interface ICollection<T> {
 	 * Adds objects to collection, then renders canvas (if `renderOnAddRemove` is not `false`)
 	 * Objects should be instances of (or inherit from) fabric.Object
 	 * @param object Zero or more fabric instances
+	 *
+	 * ### Important
+	 * Keep in mind it will **ALWAYS** set `center` for `originX` and `originY`
 	 */
 	add(...object: Object[]): T;
 
