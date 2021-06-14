@@ -29,6 +29,9 @@ export interface IVariables {
 	/** The final video duration */
 	videoDuration: number;
 
+	/** If the video is getting exported */
+	isExporting: boolean;
+
 	/** If the user is in draw state (drawing or erasing) */
 	isDrawing: boolean;
 
@@ -71,10 +74,11 @@ export const variablesState = atom<IVariables>({
 	default: {
 		FPS: 30,
 		videoDuration: 11.863,
-		playVideo: false,
-		pinnedFrame: undefined,
+		isExporting: false,
 		isDrawing: false,
 		erasing: false,
+		playVideo: false,
+		pinnedFrame: undefined,
 	},
 });
 

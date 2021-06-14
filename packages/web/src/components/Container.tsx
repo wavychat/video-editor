@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 // Helpers
-import { AppScreens, pageState } from "../helpers/atoms";
+import { AppScreens, pageState, variablesState } from "../helpers/atoms";
 
 // Pages
 import { DrawPage } from "../pages/Draw";
@@ -30,6 +30,7 @@ const Content: React.FC = () => {
 	const videoRef = useRef<HTMLVideoElement>(null);
 
 	const page = useRecoilValue(pageState);
+	const variables = useRecoilValue(variablesState);
 
 	const load = () => {
 		setLoading(false);
@@ -55,13 +56,16 @@ const Content: React.FC = () => {
 				<EditCanvas ref={canvasRef} videoRef={videoRef} />
 			</div>
 			<div style={{ position: "relative", zIndex: 3 }}>
-				{page === AppScreens.INITIAL ? (
-					<InitialPage canvasRef={canvasRef} videoRef={videoRef} />
-				) : page === AppScreens.DRAW ? (
-					<DrawPage canvasRef={canvasRef} />
-				) : page === AppScreens.TEXT ? (
-					<TextPage canvasRef={canvasRef} />
-				) : null}
+				{variables.isExporting
+					? <h1 style={{ color: "white" }}>Exporting ...</h1>
+					: page === AppScreens.INITIAL ? (
+						<InitialPage canvasRef={canvasRef} videoRef={videoRef} />
+					) : page === AppScreens.DRAW ? (
+						<DrawPage canvasRef={canvasRef} />
+					) : page === AppScreens.TEXT ? (
+						<TextPage canvasRef={canvasRef} />
+					) : null}
+
 			</div>
 		</>
 	);
