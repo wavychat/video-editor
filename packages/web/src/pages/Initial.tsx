@@ -52,6 +52,81 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		}
 	};
 
+	const exportVideo = () => {
+		const video = videoRef.current;
+		const canvas = canvasRef.current?.getCanvas();
+		const fabricCanvas = canvasRef.current?.getFabric();
+
+		const recordingFPS = 60;
+
+		if (!video || !canvas || !fabricCanvas)
+			return;
+
+		video.pause();
+
+		console.log("exporting");
+		// video.style.display = "none";
+
+		const videoEl = new fabric.Image(video, {
+			objectCaching: false,
+			width: video.videoWidth,
+			height: video.videoHeight,
+			left: fabricCanvas.width! / 2,
+			top: fabricCanvas.height! / 2,
+		});
+
+		fabricCanvas.add(videoEl);
+		(videoEl.getElement() as HTMLVideoElement).play();
+
+		fabric.util.requestAnimFrame(function render() {
+			fabricCanvas.renderAll();
+			fabric.util.requestAnimFrame(render);
+		});
+
+		setVariables((vars) =>
+			({
+				...vars,
+				isExporting: true,
+			}));
+
+		const stream = canvas.captureStream(recordingFPS);
+
+		const chunks: Blob[] = [];
+		const recorder = new MediaRecorder(stream, { mimeType: "video/webm; codecs=vp9" });
+
+		fabricCanvas.selection = false;
+		fabricCanvas.forEachObject((o) => {
+			// o.selectable = false;
+		});
+
+		fabricCanvas.setActiveObject(videoEl);
+
+		recorder.onstart = () => {
+			console.log("recording started");
+		};
+
+		recorder.ondataavailable = (e) => {
+			if (e.data.size > 0)
+				chunks.push(e.data);
+		};
+
+		recorder.onstop = () => {
+			const videoUrl = URL.createObjectURL(new Blob(chunks, { type: "video/webm" }));
+			console.log("recording stopped \n\n\n", videoUrl);
+		};
+
+		recorder.onerror = (...err) =>
+			console.error("Recorder error", ...err);
+
+		recorder.start();
+		console.log("should have started");
+
+		setTimeout(() => {
+			console.log("should have stopped");
+			recorder.stop();
+		}, 10 * 1000);
+	};
+
 	return (
 		<div>
 			<button
@@ -63,55 +138,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			</button>
 
 			<button
-				// TODO: Add to recoil states isExporting and prevent looping (function in ref or in use effect), etc.. from happening
-				onClick={() => {
-					const canvas = canvasRef.current?.getCanvas();
-					const fabricCanvas = canvasRef.current?.getFabric();
-
-					if (!canvas || !fabricCanvas)
-						return;
-
-					console.log("recording");
-					const stream = canvas.captureStream(variables.FPS);
-
-					console.log(stream);
-
-					const chunks: Blob[] = [];
-					const recorder = new MediaRecorder(stream!);
-
-					console.log("1", recorder);
-					fabricCanvas.selection = false;
-					fabricCanvas.forEachObject((o) => {
-						o.selectable = false;
-					});
-
-					recorder.onstart = () => {
-						console.log("timeout started");
-						setTimeout(() => {
-							recorder.stop();
-						}, 10 * 1000);
-					};
-
-					console.log("2");
-					recorder.ondataavailable = (e) => {
-						if (e.data.size > 0)
-							chunks.push(e.data);
-					};
-
-					console.log("3");
-					recorder.onstop = () => {
-						const videoUrl = URL.createObjectURL(new Blob(chunks, { type: "video/mp4" }));
-						console.log(
-							"New video:", videoUrl,
-						);
-
-						window.open(videoUrl, "_blank");
-					};
-
-					console.log("4");
-					recorder.start();
-					console.log("5");
-				}}
+				onClick={exportVideo}
 				type="submit"
 			>
 				Export
