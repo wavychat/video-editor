@@ -19,3 +19,8 @@ body {
 .text-white {
   color: white;
 }
+
+/* Center fabric js canvas horizontally */
+.canvas-container {
+  margin: 0 auto;
+}

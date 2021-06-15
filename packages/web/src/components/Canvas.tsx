@@ -51,18 +51,20 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		const fabricCanvasRef = useRef<fabric.Canvas>();
 
 		const resizeCanvas = () => {
-			const w = window.innerWidth;
-			const h = window.innerHeight;
-
-			if (!canvasRef.current || !fabricCanvasRef.current)
+			if (!canvasRef.current || !fabricCanvasRef.current || !videoRef.current)
 				return;
 
-			canvasRef.current.width = window.innerWidth;
-			canvasRef.current.height = window.innerHeight;
+			const w = videoRef.current.videoWidth;
+			const h = videoRef.current.videoHeight;
+
+			canvasRef.current.width = w;
+			canvasRef.current.height = h;
 
 			fabricCanvasRef.current.setWidth(w);
 			fabricCanvasRef.current.setHeight(h);
 			fabricCanvasRef.current.calcOffset();
+
+			return { w, h };
 		};
 
 		const getObject = (id: string) => {
@@ -160,7 +162,9 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 			brush.width = lineOptions.size;
 			canvas.freeDrawingBrush = brush;
 
-			resizeCanvas();
+			if (videoRef.current)
+				videoRef.current.onloadedmetadata = resizeCanvas;
+
 			window.addEventListener("resize", resizeCanvas, false);
 
 			/** Add controls when object is selected */
@@ -296,7 +300,17 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 					zIndex: 2,
 				}}
 			>
-				<canvas ref={canvasRef} />
+				<canvas
+					ref={canvasRef}
+					style={{
+						left: "50%",
+						top: "50%",
+						position: "absolute",
+						// transform: "translate(-50%, -50%)",
+					}}
+				>
+					The editor is not supported on this device
+				</canvas>
 			</div>
 		);
 	},

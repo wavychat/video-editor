@@ -63,6 +63,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			return;
 
 		video.pause();
+		console.log(video);
 
 		console.log("exporting");
 		// video.style.display = "none";
@@ -92,7 +93,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		const stream = canvas.captureStream(recordingFPS);
 
 		const chunks: Blob[] = [];
-		const recorder = new MediaRecorder(stream, { mimeType: "video/webm; codecs=vp9" });
+		const recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
 
 		fabricCanvas.selection = false;
 		fabricCanvas.forEachObject((o) => {
