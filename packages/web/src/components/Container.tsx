@@ -57,7 +57,7 @@ const Content: React.FC = () => {
 			</div>
 			<div style={{ position: "relative", zIndex: 3 }}>
 				{variables.isExporting
-					? <h1 style={{ color: "white" }}>Exporting ...</h1>
+					? <span className="text-white">Exporting ...</span>
 					: page === AppScreens.INITIAL ? (
 						<InitialPage canvasRef={canvasRef} videoRef={videoRef} />
 					) : page === AppScreens.DRAW ? (
