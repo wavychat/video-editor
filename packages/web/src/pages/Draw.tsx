@@ -65,7 +65,7 @@ export const DrawPage: React.FC<Props> = ({ canvasRef }) => {
 					setLineOptions((opts) =>
 						({
 							...opts,
-							size: ev.currentTarget.valueAsNumber,
+							size: ev.currentTarget.valueAsNumber || 0,
 						}))}
 			/>
 			<CirclePicker
