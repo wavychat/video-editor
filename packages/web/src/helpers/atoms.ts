@@ -73,6 +73,7 @@ export const variablesState = atom<IVariables>({
 	key: "variablesState",
 	default: {
 		FPS: 30,
+		// TODO: Make this dynamic
 		videoDuration: 11.863,
 		isExporting: false,
 		isDrawing: false,

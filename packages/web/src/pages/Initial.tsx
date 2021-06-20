@@ -1,6 +1,7 @@
 import React from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { fabric } from "fabric";
+import { IonButton } from "@ionic/react";
 import { IEditCanvasRef } from "../components/Canvas";
 import { AppScreens, pageState, variablesState } from "../helpers/atoms";
 
@@ -62,22 +63,31 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		if (!video || !canvas || !fabricCanvas)
 			return;
 
-		video.pause();
-		console.log(video);
+		// TODO: pause video and restart it from the beginning
 
-		console.log("exporting");
-		// video.style.display = "none";
+		video.removeAttribute("style");
 
+		// Reset video dimensions. Otherwise, video will be cropped
+		video.width = video.videoWidth;
+		video.height = video.videoHeight;
+
+		// hide html video
+		video.style.display = "none";
+
+		const { top, left } = fabricCanvas.getCenter();
 		const videoEl = new fabric.Image(video, {
 			objectCaching: false,
-			width: video.videoWidth,
-			height: video.videoHeight,
-			left: fabricCanvas.width! / 2,
-			top: fabricCanvas.height! / 2,
+
+			left,
+			top,
+
+			originX: "center",
+			originY: "center",
 		});
 
-		fabricCanvas.add(videoEl);
-		(videoEl.getElement() as HTMLVideoElement).play();
+		videoEl.scaleToHeight(fabricCanvas.height || canvas.height);
+
+		fabricCanvas.backgroundImage = videoEl;
 
 		fabric.util.requestAnimFrame(function render() {
 			fabricCanvas.renderAll();
@@ -93,18 +103,12 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		const stream = canvas.captureStream(recordingFPS);
 
 		const chunks: Blob[] = [];
-		const recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+		const recorder = new MediaRecorder(stream);
 
 		fabricCanvas.selection = false;
 		fabricCanvas.forEachObject((o) => {
-			// o.selectable = false;
+			o.selectable = false;
 		});
-
-		fabricCanvas.setActiveObject(videoEl);
-
-		recorder.onstart = () => {
-			console.log("recording started");
-		};
 
 		recorder.ondataavailable = (e) => {
 			if (e.data.size > 0)
@@ -120,10 +124,8 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			console.error("Recorder error", ...err);
 
 		recorder.start();
-		console.log("should have started");
 
 		setTimeout(() => {
-			console.log("should have stopped");
 			recorder.stop();
 		}, 10 * 1000);
 	};
