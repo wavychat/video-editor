@@ -47,6 +47,7 @@
         "import/prefer-default-export": 0,
         "import/extensions": 0,
         "import/export": 0,
+        "no-mixed-spaces-and-tabs": 0,
         "react/jsx-filename-extension": [
             1,
             {
