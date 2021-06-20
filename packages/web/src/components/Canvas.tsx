@@ -58,17 +58,23 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 			const aspectRatio = video.videoWidth / video.videoHeight;
 
-			const h = video.height = window.innerHeight;
-			const w = video.width = video.height * aspectRatio;
+			video.height = window.innerHeight;
+			video.width = video.height * aspectRatio;
 
-			canvasRef.current.width = w;
-			canvasRef.current.height = h;
+			/** The padding in `px` the canvas will have compared to the video */
+			const padding: number = 50;
 
-			fabricCanvasRef.current.setWidth(w);
-			fabricCanvasRef.current.setHeight(h);
+			const canvasH = video.height;
+			const canvasW = video.width + padding * 2;
+
+			canvasRef.current.height = canvasH;
+			canvasRef.current.width = canvasW;
+
+			fabricCanvasRef.current.setHeight(canvasH);
+			fabricCanvasRef.current.setWidth(canvasW);
 			fabricCanvasRef.current.calcOffset();
 
-			return { w, h };
+			return { w: canvasW, h: canvasH };
 		};
 
 		const getObject = (id: string) => {
