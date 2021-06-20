@@ -15,6 +15,7 @@
     "fabric": "^4.5.0",
     "fabric-history": "^1.6.0",
     "fabric-with-gestures": "^4.5.0",
+    "gifuct-js": "^2.1.1",
     "ionicons": "^5.5.1",
     "react": "^17.0.2",
     "react-app-polyfill": "^2.0.0",

@@ -9137,6 +9137,13 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
+gifuct-js@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/gifuct-js/-/gifuct-js-2.1.1.tgz#ac74ab664bc0726d0a1af3f4fb46f8c0f19d8f43"
+  integrity sha512-DZkLjGtUs+cx0EDby+on/h/GrjizxcqGHLN6c8h8t8GHT1XBhRhfow/nl6L96fwSRO+37hTF2lCnoqUWFsKs9g==
+  dependencies:
+    js-binary-schema-parser "^2.0.2"
+
 git-raw-commits@^2.0.8:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/git-raw-commits/-/git-raw-commits-2.0.10.tgz#e2255ed9563b1c9c3ea6bd05806410290297bbc1"
@@ -11073,6 +11080,11 @@ jpeg-js@^0.4.0:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.4.3.tgz#6158e09f1983ad773813704be80680550eff977b"
   integrity sha512-ru1HWKek8octvUHFHvE5ZzQ1yAsJmIvRdGWvSoKV52XKyuyYA437QWDttXT8eZXDSbuMpHlLzPDZUPd6idIz+Q==
+
+js-binary-schema-parser@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/js-binary-schema-parser/-/js-binary-schema-parser-2.0.2.tgz#8fec115616bfe91c6c407f1ef2b58297b1147299"
+  integrity sha512-LUdtrIW6+4ERDhLO19cQBwYKWMcS09QpuBQSUmwYx+OXB8KzMiGDTNoVOTuo4dNrPItlYW0xyiUd1t/3HZtbxg==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
