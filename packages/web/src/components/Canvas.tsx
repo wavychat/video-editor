@@ -51,11 +51,15 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		const fabricCanvasRef = useRef<fabric.Canvas>();
 
 		const resizeCanvas = () => {
-			if (!canvasRef.current || !fabricCanvasRef.current || !videoRef.current)
+			const video = videoRef.current;
+
+			if (!canvasRef.current || !fabricCanvasRef.current || !video || variablesRef.current.isExporting)
 				return;
 
-			const w = videoRef.current.videoWidth;
-			const h = videoRef.current.videoHeight;
+			const aspectRatio = video.videoWidth / video.videoHeight;
+
+			const h = video.height = window.innerHeight;
+			const w = video.width = video.height * aspectRatio;
 
 			canvasRef.current.width = w;
 			canvasRef.current.height = h;
@@ -206,7 +210,8 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 					};
 
 					if (hasPinnedFrame) {
-						const nextFrame = 5;
+						// TODO: make it dynamic by calculating time for renderAll with event
+						const nextFrame = 4;
 						const hideFrameScript = scriptClone[pinnedFrame + nextFrame];
 
 						scriptClone[pinnedFrame + nextFrame] = {

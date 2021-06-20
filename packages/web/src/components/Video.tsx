@@ -88,8 +88,8 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 					style={{
 						position: "absolute",
 						zIndex: 1,
-						width: "100%",
-						height: "100%",
+						left: "50%",
+						transform: "translate(-50%, 0)",
 					}}
 				/>
 			</div>
