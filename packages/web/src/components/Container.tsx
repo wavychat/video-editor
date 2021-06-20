@@ -56,15 +56,23 @@ const Content: React.FC = () => {
 				<EditCanvas ref={canvasRef} videoRef={videoRef} />
 			</div>
 			<div style={{ position: "relative", zIndex: 3 }}>
-				{variables.isExporting
-					? <span className="text-white">Exporting ...</span>
-					: page === AppScreens.INITIAL ? (
-						<InitialPage canvasRef={canvasRef} videoRef={videoRef} />
-					) : page === AppScreens.DRAW ? (
-						<DrawPage canvasRef={canvasRef} />
-					) : page === AppScreens.TEXT ? (
-						<TextPage canvasRef={canvasRef} />
-					) : null}
+				{variables.videoUrl
+					? (
+						<>
+							<span className="text-white">Exported !</span>
+							<a href={variables.videoUrl} download className="text-white">Download</a>
+							<video src={variables.videoUrl} style={{ width: 300 }} controls />
+						</>
+					)
+					: variables.isExporting
+						? <span className="text-white">Exporting ...</span>
+						: page === AppScreens.INITIAL ? (
+							<InitialPage canvasRef={canvasRef} videoRef={videoRef} />
+						) : page === AppScreens.DRAW ? (
+							<DrawPage canvasRef={canvasRef} />
+						) : page === AppScreens.TEXT ? (
+							<TextPage canvasRef={canvasRef} />
+						) : null}
 
 			</div>
 		</>

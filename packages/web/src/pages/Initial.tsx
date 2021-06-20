@@ -109,6 +109,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		fabricCanvas.forEachObject((o) => {
 			o.selectable = false;
 		});
+		fabricCanvas.discardActiveObject().renderAll();
 
 		recorder.ondataavailable = (e) => {
 			if (e.data.size > 0)
@@ -116,7 +117,14 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		};
 
 		recorder.onstop = () => {
-			const videoUrl = URL.createObjectURL(new Blob(chunks, { type: "video/webm" }));
+			const videoUrl = URL.createObjectURL(new Blob(chunks, { type: "video/mp4" }));
+
+			setVariables((vars) =>
+				({
+					...vars,
+					videoUrl,
+				}));
+
 			console.log("recording stopped \n\n\n", videoUrl);
 		};
 

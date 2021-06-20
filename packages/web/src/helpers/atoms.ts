@@ -46,6 +46,9 @@ export interface IVariables {
 
 	/** The ID of the selected text */
 	selectedTextId?: string;
+
+	/** The blob url of the video when it's exported */
+	videoUrl?: string | undefined;
 }
 
 export enum AppScreens {
@@ -75,11 +78,14 @@ export const variablesState = atom<IVariables>({
 		FPS: 30,
 		// TODO: Make this dynamic
 		videoDuration: 11.863,
+
 		isExporting: false,
 		isDrawing: false,
 		erasing: false,
 		playVideo: false,
+
 		pinnedFrame: undefined,
+		videoUrl: undefined,
 	},
 });
 
