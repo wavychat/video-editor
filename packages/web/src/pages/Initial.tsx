@@ -71,8 +71,9 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		video.width = video.videoWidth;
 		video.height = video.videoHeight;
 
-		// hide html video
+		// hide video and canvas
 		video.style.display = "none";
+		canvas.style.display = "none";
 
 		const { top, left } = fabricCanvas.getCenter();
 		const videoEl = new fabric.Image(video, {

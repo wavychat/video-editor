@@ -22,5 +22,8 @@ body {
 
 /* Center fabric js canvas horizontally */
 .canvas-container {
+  position: absolute;
   margin: 0 auto;
+  top: 50%;
+  transform: translate(0, -50%);
 }

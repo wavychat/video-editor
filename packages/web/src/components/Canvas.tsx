@@ -58,11 +58,22 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 			const aspectRatio = video.videoWidth / video.videoHeight;
 
-			video.height = window.innerHeight;
-			video.width = video.height * aspectRatio;
+			const maxPadding: number = 50;
 
 			/** The padding in `px` the canvas will have compared to the video */
-			const padding: number = 50;
+			let padding: number = 0;
+
+			if (window.innerWidth > window.innerHeight * aspectRatio) {
+				video.height = window.innerHeight;
+				video.width = video.height * aspectRatio;
+
+				// ideally the canvas has a 50px padding
+				const spaceLeft = window.innerWidth - video.width;
+				padding = spaceLeft < maxPadding ? spaceLeft : maxPadding;
+			} else {
+				video.width = window.innerWidth;
+				video.height = video.width * 1 / aspectRatio;
+			}
 
 			const canvasH = video.height;
 			const canvasW = video.width + padding * 2;
