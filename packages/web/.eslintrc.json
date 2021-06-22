@@ -48,6 +48,8 @@
         "import/extensions": 0,
         "import/export": 0,
         "no-mixed-spaces-and-tabs": 0,
+        "no-unused-vars": 0,
+        "@typescript-eslint/no-unused-vars": 1,
         "react/jsx-filename-extension": [
             1,
             {
@@ -67,7 +69,6 @@
             "error",
             "double"
         ],
-        "no-unused-vars": 1,
         "no-console": 1,
         "no-continue": 0,
         "no-param-reassign": 0,
