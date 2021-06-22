@@ -17,6 +17,8 @@ import {
 	lineOptionsState,
 	scriptState,
 	IVariables,
+	pageState,
+	AppScreens,
 } from "../helpers/atoms";
 import { IScripting } from "../helpers/types/scripting";
 
@@ -43,9 +45,11 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		const lineOptions = useRecoilValue(lineOptionsState);
 		const [variables, setVariables] = useRecoilState(variablesState);
 		const [script, setScript] = useRecoilState(scriptState);
+		const [page, setPage] = useRecoilState(pageState);
 
 		const variablesRef = useRef<IVariables>(variables);
 		const scriptRef = useRef<IScripting>(script);
+		const pageRef = useRef<AppScreens>(page);
 
 		const canvasRef = useRef<HTMLCanvasElement>(null);
 		const fabricCanvasRef = useRef<fabric.Canvas>();
@@ -53,7 +57,12 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		const resizeCanvas = () => {
 			const video = videoRef.current;
 
-			if (!canvasRef.current || !fabricCanvasRef.current || !video || variablesRef.current.isExporting)
+			if (
+				!canvasRef.current
+				|| !fabricCanvasRef.current
+				|| !video
+				|| pageRef.current === AppScreens.EXPORTING
+			)
 				return;
 
 			const aspectRatio = video.videoWidth / video.videoHeight;
@@ -131,7 +140,8 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		useEffect(() => {
 			variablesRef.current = variables;
 			scriptRef.current = script;
-		}, [variables, script]);
+			pageRef.current = page;
+		}, [variables, script, page]);
 
 		useEffect(() => {
 			if (fabricCanvasRef.current)
@@ -205,7 +215,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 					return;
 
 				// if video is currently being exported don't allow new elements
-				if (variablesRef.current.isExporting)
+				if (pageRef.current === AppScreens.EXPORTING)
 					return canvas.remove(object);
 
 				const id = uuidv4();

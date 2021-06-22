@@ -29,16 +29,13 @@ export interface IVariables {
 	/** The final video duration */
 	videoDuration: number;
 
-	/** If the video is getting exported */
-	isExporting: boolean;
-
 	/** If the user is in draw state (drawing or erasing) */
 	isDrawing: boolean;
 
 	/** If the user is erasing */
 	erasing: boolean;
 
-	/** If the video is play (when frame is pinned) */
+	/** If the video is playing (when frame is pinned) */
 	playVideo: boolean;
 
 	/** The frame that was pinned */
@@ -60,6 +57,7 @@ export enum AppScreens {
 	SOUND_CHANGE,
 	VIDEO_TRIM,
 	AUDIO_TRIM,
+	EXPORTING
 }
 
 export const scriptState = atom<IScripting>({
@@ -79,7 +77,6 @@ export const variablesState = atom<IVariables>({
 		// TODO: Make this dynamic
 		videoDuration: 11.863,
 
-		isExporting: false,
 		isDrawing: false,
 		erasing: false,
 		playVideo: false,

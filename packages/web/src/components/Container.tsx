@@ -64,7 +64,7 @@ const Content: React.FC = () => {
 							<video src={variables.videoUrl} style={{ width: 300 }} controls />
 						</>
 					)
-					: variables.isExporting
+					: page === AppScreens.EXPORTING
 						? <span className="text-white">Exporting ...</span>
 						: page === AppScreens.INITIAL ? (
 							<InitialPage canvasRef={canvasRef} videoRef={videoRef} />

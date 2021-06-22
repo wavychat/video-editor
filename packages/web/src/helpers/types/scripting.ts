@@ -1,4 +1,4 @@
-import { ObjectID } from "../../types/fabric/fabric-impl";
+import { ObjectID } from "../../types/fabric/fabric-impl.d";
 
 // TODO: add more actions
 export enum Actions {

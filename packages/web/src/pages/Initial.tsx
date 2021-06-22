@@ -95,11 +95,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			fabric.util.requestAnimFrame(render);
 		});
 
-		setVariables((vars) =>
-			({
-				...vars,
-				isExporting: true,
-			}));
+		setPage(AppScreens.EXPORTING);
 
 		const stream = canvas.captureStream(recordingFPS);
 
