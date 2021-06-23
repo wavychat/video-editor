@@ -45,6 +45,7 @@
     ],
     "rules": {
         "import/prefer-default-export": 0,
+        "react/jsx-props-no-spreading": 0,
         "import/extensions": 0,
         "import/export": 0,
         "no-mixed-spaces-and-tabs": 0,
@@ -105,7 +106,9 @@
                     "**/*.test.ts",
                     "**/*.test.tsx",
                     "**/*.spec.tsx",
-                    "**/*.spec.tsx"
+                    "**/*.spec.tsx",
+                    "**/*.stories.ts",
+                    "**/*.stories.tsx"
                 ],
                 "bundledDependencies": true
             }
