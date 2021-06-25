@@ -64,6 +64,10 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 				|| pageRef.current === AppScreens.EXPORTING
 			)
 				return;
+			const container = document.getElementById("video_editor_canvas_container_1");
+
+			const containerWidth = container?.clientWidth || window.innerWidth;
+			const containerHeight = container?.clientHeight || window.innerHeight;
 
 			const aspectRatio = video.videoWidth / video.videoHeight;
 
@@ -72,15 +76,15 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 			/** The padding in `px` the canvas will have compared to the video */
 			let padding: number = 0;
 
-			if (window.innerWidth > window.innerHeight * aspectRatio) {
-				video.height = window.innerHeight;
+			if (containerWidth > containerHeight * aspectRatio) {
+				video.height = containerHeight;
 				video.width = video.height * aspectRatio;
 
 				// ideally the canvas has a 50px padding
-				const spaceLeft = window.innerWidth - video.width;
+				const spaceLeft = containerWidth - video.width;
 				padding = spaceLeft < maxPadding ? spaceLeft : maxPadding;
 			} else {
-				video.width = window.innerWidth;
+				video.width = containerWidth;
 				video.height = video.width * 1 / aspectRatio;
 			}
 
