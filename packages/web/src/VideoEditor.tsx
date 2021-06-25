@@ -6,12 +6,14 @@ import { IS_PROD } from "./helpers/constants";
 
 import "./VideoEditor.css";
 
-interface Props {}
+export interface EditorProps {
+	videoUrl: string
+}
 
-export const VideoEditor: React.FC<Props> = () =>
+export const VideoEditor: React.FC<EditorProps> = (args) =>
 	(
 		<RecoilRoot>
 			{/* {!IS_PROD && <RecoilDebugger />} */}
-			<Container />
+			<Container {...args} />
 		</RecoilRoot>
 	);

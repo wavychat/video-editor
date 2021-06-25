@@ -82,7 +82,7 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 		return (
 			<div>
 				<video
-					src="./test.mp4"
+					src={variables.videoUrl}
 					ref={videoRef}
 					muted={!IS_PROD}
 					style={{

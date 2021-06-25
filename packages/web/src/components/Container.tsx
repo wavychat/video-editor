@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 // Helpers
 import { AppScreens, pageState, variablesState } from "../helpers/atoms";
@@ -13,14 +13,27 @@ import { TextPage } from "../pages/Text";
 import EditCanvas, { IEditCanvasRef } from "./Canvas";
 import BackgroundVideo from "./Video";
 
-interface Props {}
+interface Props {
+	videoUrl: string;
+}
 
-export const Container: React.FC<Props> = (props) =>
-	(
+export const Container: React.FC<Props> = ({ videoUrl }) => {
+	const setVariables = useSetRecoilState(variablesState);
+
+	useEffect(() => {
+		setVariables((vars) =>
+			({
+				...vars,
+				videoUrl,
+			}));
+	}, []);
+
+	return (
 		<div id="video_editor_canvas_container_1">
 			<Content />
 		</div>
 	);
+};
 
 const Content: React.FC = () => {
 	const [started, setStart] = useState<boolean>(false);
@@ -49,6 +62,14 @@ const Content: React.FC = () => {
 	if (!started)
 		return <button onClick={start} type="button">Start</button>;
 
+	if (variables.exportedVideoUrl)
+		return (
+			<>
+				<span className="text-white">Exported !</span>
+				<video src={variables.exportedVideoUrl} style={{ width: 300 }} controls />
+			</>
+		);
+
 	return (
 		<>
 			<div>
@@ -56,23 +77,15 @@ const Content: React.FC = () => {
 				<EditCanvas ref={canvasRef} videoRef={videoRef} />
 			</div>
 			<div style={{ position: "relative", zIndex: 3 }}>
-				{variables.videoUrl
-					? (
-						<>
-							<span className="text-white">Exported !</span>
-							<a href={variables.videoUrl} download className="text-white">Download</a>
-							<video src={variables.videoUrl} style={{ width: 300 }} controls />
-						</>
-					)
-					: page === AppScreens.EXPORTING
-						? <span className="text-white">Exporting ...</span>
-						: page === AppScreens.INITIAL ? (
-							<InitialPage canvasRef={canvasRef} videoRef={videoRef} />
-						) : page === AppScreens.DRAW ? (
-							<DrawPage canvasRef={canvasRef} />
-						) : page === AppScreens.TEXT ? (
-							<TextPage canvasRef={canvasRef} />
-						) : null}
+				{page === AppScreens.EXPORTING
+					? <span className="text-white">Exporting ...</span>
+					: page === AppScreens.INITIAL ? (
+						<InitialPage canvasRef={canvasRef} videoRef={videoRef} />
+					) : page === AppScreens.DRAW ? (
+						<DrawPage canvasRef={canvasRef} />
+					) : page === AppScreens.TEXT ? (
+						<TextPage canvasRef={canvasRef} />
+					) : null}
 
 			</div>
 		</>

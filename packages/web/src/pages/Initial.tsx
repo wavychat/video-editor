@@ -119,7 +119,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			setVariables((vars) =>
 				({
 					...vars,
-					videoUrl,
+					exportedVideoUrl: videoUrl,
 				}));
 
 			console.log("recording stopped \n\n\n", videoUrl);
