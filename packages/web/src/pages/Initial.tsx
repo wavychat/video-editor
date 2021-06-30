@@ -28,7 +28,11 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		if (!canvas)
 			return;
 
-		for (const file of e.target.files || []) {
+		if (e.target.files?.length && e.target.files?.length > 3)
+		// TODO: add this as a prop event and let the user handle it
+			return alert("Reached max file number");
+
+		for (const file of e.target.files!) {
 			const reader = new FileReader();
 			reader.onload = (f) => {
 				const data = f.target?.result;
