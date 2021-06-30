@@ -62,13 +62,13 @@ const Content: React.FC = () => {
 	if (!started)
 		return <button onClick={start} type="button">Start</button>;
 
-	if (variables.exportedVideoUrl)
-		return (
-			<>
-				<span className="text-white">Exported !</span>
-				<video src={variables.exportedVideoUrl} style={{ width: 300 }} controls />
-			</>
-		);
+	// if (variables.exportedVideoUrl)
+	//  	return (
+	// 		<>
+	// 		<span className="text-white">Exported !</span>
+	// 		<video src={variables.exportedVideoUrl} style={{ width: 300 }} controls />
+	// 	</>
+	// );
 
 	return (
 		<>
@@ -77,15 +77,23 @@ const Content: React.FC = () => {
 				<EditCanvas ref={canvasRef} videoRef={videoRef} />
 			</div>
 			<div style={{ position: "relative", zIndex: 3 }}>
-				{page === AppScreens.EXPORTING
-					? <span className="text-white">Exporting ...</span>
-					: page === AppScreens.INITIAL ? (
-						<InitialPage canvasRef={canvasRef} videoRef={videoRef} />
-					) : page === AppScreens.DRAW ? (
-						<DrawPage canvasRef={canvasRef} />
-					) : page === AppScreens.TEXT ? (
-						<TextPage canvasRef={canvasRef} />
-					) : null}
+				{
+					variables.exportedVideoUrl ? (
+						<>
+							<span className="text-white">Exported !</span>
+							<video src={variables.exportedVideoUrl} style={{ width: 300 }} controls />
+						</>
+					)
+						: page === AppScreens.EXPORTING
+							? <span className="text-white">Exporting ...</span>
+							: page === AppScreens.INITIAL ? (
+								<InitialPage canvasRef={canvasRef} videoRef={videoRef} />
+							) : page === AppScreens.DRAW ? (
+								<DrawPage canvasRef={canvasRef} />
+							) : page === AppScreens.TEXT ? (
+								<TextPage canvasRef={canvasRef} />
+							) : null
+				}
 
 			</div>
 		</>

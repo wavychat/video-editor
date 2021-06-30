@@ -281,6 +281,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 			return () => {
 				window.removeEventListener("resize", resizeCanvas, false);
+				canvas.clear();
 				canvas.removeListeners();
 			};
 		}, []);
@@ -342,7 +343,6 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 						left: "50%",
 						top: "50%",
 						position: "absolute",
-						// transform: "translate(-50%, -50%)",
 					}}
 				>
 					The editor is not supported on this device
