@@ -24,8 +24,10 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 	};
 
 	const addImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-		const canvas = canvasRef.current?.getFabric();
-		if (!canvas)
+		const fabricCanvas = canvasRef.current?.getFabric();
+		const canvas = canvasRef.current?.getCanvas();
+
+		if (!fabricCanvas || !canvas)
 			return;
 
 		if (e.target.files?.length && e.target.files?.length > 3)
@@ -40,15 +42,15 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 					return;
 
 				fabric.Image.fromURL(data.toString(), (img) => {
-					const w = window.innerWidth;
-					const h = window.innerHeight;
+					const w = canvas.width;
+					const h = canvas.height;
 
 					if (h < w)
 						img.scaleToHeight(h / 2);
 					else
 						img.scaleToWidth(w / 2);
 
-					canvas.add(img).renderAll();
+					fabricCanvas.add(img).renderAll();
 					img.center();
 				});
 			};
