@@ -47,6 +47,12 @@
         "react/no-unescaped-entities": 0,
         "import/prefer-default-export": 0,
         "react/jsx-props-no-spreading": 0,
+        "react/jsx-indent": 0,
+        "react/prop-types": 0,
+        "react/jsx-indent-props": [
+            2,
+            "tab"
+        ],
         "import/extensions": 0,
         "import/export": 0,
         "no-mixed-spaces-and-tabs": 0,
@@ -89,15 +95,6 @@
             }
         ],
         "no-tabs": 0,
-        "react/prop-types": 0,
-        "react/jsx-indent": [
-            2,
-            "tab"
-        ],
-        "react/jsx-indent-props": [
-            2,
-            "tab"
-        ],
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": "off",
         "import/no-extraneous-dependencies": [
