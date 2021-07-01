@@ -50,7 +50,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 					else
 						img.scaleToWidth(w / 2);
 
-					fabricCanvas.add(img).renderAll();
+					fabricCanvas.add(img).requestRenderAll();
 					img.center();
 				});
 			};
@@ -97,7 +97,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		fabricCanvas.backgroundImage = videoEl;
 
 		fabric.util.requestAnimFrame(function render() {
-			fabricCanvas.renderAll();
+			fabricCanvas.requestRenderAll();
 			fabric.util.requestAnimFrame(render);
 		});
 
@@ -112,7 +112,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		fabricCanvas.forEachObject((o) => {
 			o.selectable = false;
 		});
-		fabricCanvas.discardActiveObject().renderAll();
+		fabricCanvas.discardActiveObject().requestRenderAll();
 
 		recorder.ondataavailable = (e) => {
 			if (e.data.size > 0)

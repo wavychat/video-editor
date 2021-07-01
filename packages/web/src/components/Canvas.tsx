@@ -27,8 +27,8 @@ interface Props {
 	videoRef: React.RefObject<HTMLVideoElement>;
 }
 
-type TFabricRef = fabric.Canvas | undefined;
-type TCanvasRef = HTMLCanvasElement | null;
+type TFabricRef = fabric.Canvas | null | undefined;
+type TCanvasRef = HTMLCanvasElement | null | undefined;
 
 export interface IEditCanvasRef {
 	clear?: () => void;
@@ -287,8 +287,12 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 		}, []);
 
 		useEffect(() => {
-			const requestAnimFrame = () =>
-				requestAnimationFrame(animate);
+			/** The next animation frame */
+			let localReqAnim: number = 0;
+
+			const requestAnimFrame = () => {
+				localReqAnim = requestAnimationFrame(animate);
+			};
 
 			const animate = () => {
 				const script = scriptRef.current;
@@ -320,12 +324,16 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 					obj.set("opacity", 1);
 				}
 
-				fabricCanvasRef.current?.renderAll();
+				fabricCanvasRef.current?.requestRenderAll();
 
 				return requestAnimFrame();
 			};
 
 			requestAnimFrame();
+
+			return () => {
+				cancelAnimationFrame(localReqAnim);
+			};
 		}, []);
 
 		return (
