@@ -4,6 +4,9 @@ body,
 #video_editor_canvas_container_1 {
   width: 100%;
   height: 100%;
+}
+
+#video_editor_canvas_container_1 {
   background-color: black;
 }
 
