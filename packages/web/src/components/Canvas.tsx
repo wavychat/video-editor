@@ -22,6 +22,44 @@ import {
 } from "../helpers/atoms";
 import { IScripting } from "../helpers/types/scripting";
 
+const deleteObject: fabric.Control["mouseUpHandler"] = (eventData, transform) => {
+	const { target } = transform;
+	const { canvas } = target;
+
+	if (!canvas)
+		return false;
+
+	canvas.remove(target);
+	canvas.requestRenderAll();
+	return true;
+};
+
+const deleteIcon = "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E";
+
+const deleteImg = document.createElement("img");
+deleteImg.src = deleteIcon;
+
+const renderIcon = (icon: HTMLImageElement, cornerSize: number): fabric.Control["render"] =>
+	(ctx, left, top, styleOverride, fabricObject) => {
+		const size = cornerSize;
+		ctx.save();
+		ctx.translate(left, top);
+		ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle || 0));
+		ctx.drawImage(icon, -size / 2, -size / 2, size, size);
+		ctx.restore();
+	};
+
+fabric.Object.prototype.controls.deleteControl = new fabric.Control({
+	x: 0.5,
+	y: -0.5,
+	offsetY: -16,
+	offsetX: 16,
+	cursorStyle: "pointer",
+	withConnection: true,
+	mouseUpHandler: deleteObject,
+	render: renderIcon(deleteImg, 24),
+});
+
 interface Props {
 	onTextDoubleClick?: (obj: any) => any;
 	videoRef: React.RefObject<HTMLVideoElement>;
@@ -64,28 +102,29 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 				|| pageRef.current === AppScreens.EXPORTING
 			)
 				return;
+
 			const container = document.getElementById("video_editor_canvas_container_1");
 
 			const containerWidth = container?.clientWidth || window.innerWidth;
 			const containerHeight = container?.clientHeight || window.innerHeight;
 
-			const aspectRatio = video.videoWidth / video.videoHeight;
+			const videoAspectRatio = video.videoWidth / video.videoHeight;
 
 			const maxPadding: number = 50;
 
 			/** The padding in `px` the canvas will have compared to the video */
 			let padding: number = 0;
 
-			if (containerWidth > containerHeight * aspectRatio) {
+			if (containerWidth > containerHeight * videoAspectRatio) {
 				video.height = containerHeight;
-				video.width = video.height * aspectRatio;
+				video.width = video.height * videoAspectRatio;
 
 				// ideally the canvas has a 50px padding
 				const spaceLeft = containerWidth - video.width;
 				padding = spaceLeft < maxPadding ? spaceLeft : maxPadding;
 			} else {
 				video.width = containerWidth;
-				video.height = video.width * 1 / aspectRatio;
+				video.height = video.width * 1 / videoAspectRatio;
 			}
 
 			const canvasH = video.height;
@@ -106,7 +145,7 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 			for (let i = 0; i < objects.length; i++) {
 				const object = objects[i];
-				if (object?.id === id)
+				if (object?.customOptions?.id === id)
 					return object;
 			}
 		};
@@ -122,7 +161,9 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 				addText: (text) => {
 					const id = uuidv4();
 					const textbox = new fabric.IText(text, {
-						id,
+						customOptions: {
+							id,
+						},
 						textAlign: "center",
 						fill: "black",
 						textBackgroundColor: "white",
@@ -224,38 +265,38 @@ const EditCanvas = React.forwardRef<IEditCanvasRef, Props>(
 
 				const id = uuidv4();
 
-				// add object to script
-				setScript((script) => {
-					let { pinnedFrame } = variablesRef.current;
-					const scriptClone = { ...script };
-					const hasPinnedFrame: boolean = !!pinnedFrame;
+				let { pinnedFrame } = variablesRef.current;
+				const scriptClone = { ...scriptRef.current };
+				const hasPinnedFrame: boolean = !!pinnedFrame;
 
-					if (!pinnedFrame)
-						pinnedFrame = 1;
+				if (!pinnedFrame)
+					pinnedFrame = 1;
 
-					const frameScript = scriptClone[pinnedFrame];
+				const frameScript = scriptClone[pinnedFrame];
 
-					scriptClone[pinnedFrame] = {
-						...frameScript,
-						show: [...(frameScript?.show ?? []), id],
+				scriptClone[pinnedFrame] = {
+					...frameScript,
+					show: [...(frameScript?.show ?? []), id],
+				};
+
+				if (hasPinnedFrame) {
+					const nextFrame = 4;
+					const hideFrameScript = scriptClone[pinnedFrame + nextFrame];
+
+					scriptClone[pinnedFrame + nextFrame] = {
+						...hideFrameScript,
+						hide: [...(hideFrameScript?.hide ?? []), id],
 					};
+				}
 
-					if (hasPinnedFrame) {
-						// TODO: make it dynamic by calculating time for renderAll with event
-						const nextFrame = 4;
-						const hideFrameScript = scriptClone[pinnedFrame + nextFrame];
-
-						scriptClone[pinnedFrame + nextFrame] = {
-							...hideFrameScript,
-							hide: [...(hideFrameScript?.hide ?? []), id],
-						};
-					}
-
-					return scriptClone;
-				});
+				// add object to script
+				setScript(scriptClone);
 
 				const options: Partial<fabric.Object> = {
-					id,
+					customOptions: {
+						id,
+						permanent: !hasPinnedFrame,
+					},
 					dirty: true,
 					hasControls: !isMobile,
 					originX: "center",

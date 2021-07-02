@@ -2962,12 +2962,20 @@ export class Line {
 }
 
 interface IObjectOptions {
-	/**
-	 * Identify fabric objects with unique identifier
-	 * Note that this property is meant to be read-only and not meant to be modified.
-	 * If you modify, certain parts of Fabric (such as JSON loading) won't work correctly.
-	 */
-	id?: ObjectID;
+
+	/** Any option that isn't directly created by fabric */
+	customOptions?: {
+		/**
+		 * Identify fabric objects with unique identifier
+		 * Note that this property is meant to be read-only and not meant to be modified.
+		 * If you modify, certain parts of Fabric (such as JSON loading) won't work correctly.
+		 */
+	 	id?: ObjectID;
+
+		/** Whether or not the object is supposed to be hidden or animated at some point */
+		permanent?: boolean
+	}
+
 	/**
 	 * Type of an object (rect, circle, path, etc.).
 	 * Note that this property is meant to be read-only and not meant to be modified.

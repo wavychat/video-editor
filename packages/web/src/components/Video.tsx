@@ -1,6 +1,6 @@
 import React, { useEffect, useImperativeHandle, useRef } from "react";
-import { useRecoilState } from "recoil";
-import { variablesState } from "../helpers/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { AppScreens, pageState, variablesState } from "../helpers/atoms";
 import { IS_PROD } from "../helpers/constants";
 
 interface Props {}
@@ -8,6 +8,8 @@ interface Props {}
 const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 	(props, ref) => {
 		const videoRef = useRef<HTMLVideoElement>(null);
+
+		const page = useRecoilValue(pageState);
 		const [variables, setVariables] = useRecoilState(variablesState);
 
 		useImperativeHandle(ref, () =>
@@ -20,31 +22,43 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 
 			if (variables.playVideo)
 				video.play();
-			else {
-				console.log("stopped at frame", variables.pinnedFrame);
+			else
 				video.pause();
-			}
 
 			/** Is the tab focused */
 			let focused: boolean = true;
 			/** Pause video when not in the tab */
 			const onVisibilityChange = () => {
-				focused = !focused;
+				focused = (page === AppScreens.EXPORTING) || !focused;
 				if (!focused)
 					video.pause();
 				else if (variables.playVideo)
 					video.play();
 			};
 
-			document.addEventListener("visibilitychange", onVisibilityChange);
+			if (page !== AppScreens.EXPORTING)
+				document.addEventListener("visibilitychange", onVisibilityChange);
+
+			/** Replay video when ended (loop) */
+			const onEnd = () => {
+				if (page === AppScreens.EXPORTING)
+					return;
+
+				videoRef.current!.currentTime = 0;
+				videoRef.current!.play();
+			};
+
+			if (page !== AppScreens.EXPORTING)
+				video.addEventListener("ended", onEnd);
 
 			return () => {
 				document.removeEventListener(
 					"visibilitychange",
 					onVisibilityChange,
 				);
+				video.removeEventListener("ended", onEnd);
 			};
-		}, [variables.playVideo]);
+		}, [variables.playVideo, page]);
 
 		useEffect(() => {
 			const video = videoRef.current;
@@ -65,17 +79,8 @@ const BackgroundVideo = React.forwardRef<HTMLVideoElement, Props>(
 			// for ios
 			video.load();
 
-			/** Replay video when ended (loop) */
-			const onEnd = () => {
-				videoRef.current!.currentTime = 0;
-				videoRef.current!.play();
-			};
-
-			video.addEventListener("ended", onEnd);
-
 			return () => {
 				video.removeEventListener("canplay", onReady);
-				video.removeEventListener("ended", onEnd);
 			};
 		}, []);
 

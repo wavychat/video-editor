@@ -69,7 +69,15 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 		if (!video || !canvas || !fabricCanvas)
 			return;
 
-		// TODO: pause video and restart it from the beginning
+		setVariables((vars) =>
+			({ ...vars, pinnedFrame: undefined, playVideo: false }));
+
+		video.currentTime = 0;
+
+		// reset the whole canvas
+		fabricCanvas.forEachObject((obj) =>
+			!obj.customOptions?.permanent && obj.set("opacity", 0))
+			.requestRenderAll();
 
 		video.removeAttribute("style");
 
@@ -121,7 +129,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 
 		recorder.onstop = () => {
 			const videoUrl = URL.createObjectURL(new Blob(chunks, { type: "video/mp4" }));
-
+			video.onended = null;
 			setVariables((vars) =>
 				({
 					...vars,
@@ -135,10 +143,11 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			console.error("Recorder error", ...err);
 
 		recorder.start();
+		video.play();
 
-		setTimeout(() => {
+		video.onended = () => {
 			recorder.stop();
-		}, 10 * 1000);
+		};
 	};
 
 	return (
@@ -166,7 +175,7 @@ export const InitialPage: React.FC<Props> = ({ canvasRef, videoRef }) => {
 			<button
 				onClick={() =>
 					console.log(
-						canvasRef.current?.getFabric()?.toObject(["id"]).objects,
+						canvasRef.current?.getFabric()?.toObject(["customOptions"]).objects,
 					)}
 				type="button"
 			>
